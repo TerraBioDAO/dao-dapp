@@ -3,6 +3,7 @@ import { MetaMaskConnector } from "@wagmi/core/connectors/metaMask"
 import { useConnect, useAccount, useDisconnect } from "wagmi"
 
 import { MainLayout } from "@/components/layouts/Main"
+import { Header } from "@/components/Header"
 
 export default function Home() {
   const { isConnected } = useAccount()
@@ -24,6 +25,17 @@ export default function Home() {
           )}
 
         </Flex>
+
+
+        <Flex justify="center">
+
+          {/* Header */}
+          {isConnected && (
+            <Header />
+          )}
+
+        </Flex>
+
 
       </>
     </MainLayout>

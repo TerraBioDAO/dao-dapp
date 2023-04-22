@@ -6,6 +6,7 @@ import type { AppProps } from "next/app"
 import { WagmiConfig, configureChains, createClient } from "wagmi"
 import { MetaMaskConnector } from "@wagmi/core/connectors/metaMask"
 import { WalletConnectConnector } from "@wagmi/core/connectors/walletConnect"
+import { MainLayout } from "@/components/layouts/Main"
 
 const client = createClient({
   connectors: [
@@ -23,7 +24,9 @@ export default function App({ Component, pageProps }: AppProps) {
     <ChakraProvider>
       <WagmiConfig client={client}>
         {/* <RainbowKitProvider chains={}> */}
-        <Component {...pageProps} />
+        <MainLayout>
+          <Component {...pageProps} />
+        </MainLayout>
         {/* </RainbowKitProvider> */}
       </WagmiConfig>
     </ChakraProvider>

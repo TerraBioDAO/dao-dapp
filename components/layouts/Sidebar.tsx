@@ -13,7 +13,8 @@ import {
 import {
     FiHome,
     FiTrendingUp,
-    FiCompass
+    FiCompass,
+    FiTrendingDown
 } from 'react-icons/fi';
 import {
     HamburgerIcon,
@@ -28,9 +29,9 @@ interface LinkItemProps {
 }
 const LinkItems: Array<LinkItemProps> = [
     { name: 'Home', path: "/", icon: FiHome },
-    { name: 'Token', path: "/token", icon: FiCompass },
-    { name: 'NFT', path: "/nft", icon: FiTrendingUp },
-    { name: 'SWAP', path: "/swap", icon: FiTrendingUp },
+    { name: 'Proposal', path: "/proposal", icon: FiCompass },
+    { name: 'Vote', path: "/vote", icon: FiTrendingUp },
+    { name: 'Forum', path: "/forum", icon: FiTrendingDown },
 ];
 
 export const Sidebar = ({ isOpen, onOpen, onClose }: any) => {
