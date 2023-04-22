@@ -68,7 +68,9 @@ export const MainLayout = ({ children }: { children: ReactElement<any, any> }) =
                 </Box>
 
                 {/* Body / Main */}
-                {children}
+                <main>
+                    {children}
+                </main>
 
             </GridItem>
         </Grid>

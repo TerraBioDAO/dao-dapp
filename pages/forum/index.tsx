@@ -1,12 +1,15 @@
+import {
+    Box,
+    Text
+} from '@chakra-ui/react';
+
+import { MainLayout } from '@/components/layouts/Main';
+
 import { CardAnnonce } from '@/components/CardAnnonce';
 import { CardArticle } from '@/components/CardArticle';
 import { CardProposal } from '@/components/CardProposal';
 import { FormProposal } from '@/components/FormProposal';
 
-import {
-    Box,
-    Text
-} from '@chakra-ui/react';
 const listProposal = [
     {
         id: 0,

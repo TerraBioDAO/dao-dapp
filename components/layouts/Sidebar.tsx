@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import Link from 'next/link';
 import {
     IconButton,
     Box,
@@ -7,7 +8,6 @@ import {
     Text,
     BoxProps,
     FlexProps,
-    Link,
     useColorModeValue
 } from '@chakra-ui/react';
 import {
@@ -117,48 +117,48 @@ interface NavItemProps extends FlexProps {
 const NavItem = ({ icon, children, path, isOpen, ...rest }: NavItemProps) => {
     return (
         <Flex>
-            <Link
-                as={Link}
-                href={path}
-                mx="1"
-                my="1"
-                w="100%"
-                borderRadius="lg"
-                style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}
-                _activeLink={{
-                    color: useColorModeValue('violet.50', 'primary.100'),
-                    bgColor: useColorModeValue('violet.5', 'gray.700'),
-                    border: 'solid 1px'
-                }}>
-                <Flex
-                    align="center"
+            <Link href={path}>
+                <Box
+                    mx="1"
+                    my="2"
                     w="100%"
-                    m="1"
-                    role="group"
-                    textDecoration={'none'}
-                >
+                    borderRadius="lg"
+                    style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}
+                    _activeLink={{
+                        color: useColorModeValue('violet.50', 'primary.100'),
+                        bgColor: useColorModeValue('violet.5', 'gray.700'),
+                        border: 'solid 1px'
+                    }}>
+                    <Flex
+                        align="center"
+                        w="100%"
+                        m="1"
+                        role="group"
+                        textDecoration={'none'}
+                    >
 
-                    {icon && (
-                        <Icon
-                            mx="2"
-                            fontSize="24"
+                        {icon && (
+                            <Icon
+                                mx="2"
+                                fontSize="24"
 
-                            _groupHover={{
-                                color: 'primary.100',
-                            }}
-                            as={icon}
-                        />
-                    )}
+                                _groupHover={{
+                                    color: 'primary.100',
+                                }}
+                                as={icon}
+                            />
+                        )}
 
-                    {isOpen && (
-                        <Box>
-                            <Text>
-                                {children}
-                            </Text>
-                        </Box>
-                    )}
+                        {isOpen && (
+                            <Box>
+                                <Text>
+                                    {children}
+                                </Text>
+                            </Box>
+                        )}
 
-                </Flex>
+                    </Flex>
+                </Box>
             </Link>
         </Flex>
     );
