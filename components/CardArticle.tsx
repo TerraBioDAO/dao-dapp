@@ -42,8 +42,8 @@ export const CardArticle = (props: any) => {
                     <Text>{item.title}</Text>
                     <Flex>
                       <HStack spacing={'10px'}>
-                        {item.tags.map((tag: any) => {
-                          return <Tag fontSize={'9'} color={'secondary.500'} borderRadius={'full'}>{tag}</Tag>;
+                        {item.tags.map((tag: any, i: number) => {
+                          return <Tag key={tag + i.toString()} fontSize={'9'} color={'secondary.500'} borderRadius={'full'}>{tag}</Tag>;
                         })}
                       </HStack>
                     </Flex>

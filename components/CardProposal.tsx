@@ -52,7 +52,7 @@ export const CardProposal = (props: any) => {
                           totalQuantity += item.quantity;
                           totalValue += item.value * item.quantity;
                           return (
-                            <Flex direction={'column'} justify={'space-around'}>
+                            <Flex key={item.id} direction={'column'} justify={'space-around'}>
                               <Flex direction={'column'}>
                                 <Text>Item :</Text>
                                 <Text fontSize={'sm'} color={'secondary.500'}>
