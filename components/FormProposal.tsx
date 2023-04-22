@@ -17,7 +17,7 @@ import { HiOutlineHashtag } from "react-icons/hi";
 import { AiOutlineCheck } from "react-icons/ai";
 
 export const FormProposal = () => {
-  const [selectedVoteType, setSelectedVoteType] = useState("A");
+  const [selectedVoteType, setSelectedVoteType] = useState("Yes/No");
 
   const handleVoteTypeChange = (event: any) => {
     setSelectedVoteType(event.target.value);
@@ -70,56 +70,28 @@ export const FormProposal = () => {
                 value={selectedVoteType}
                 onChange={handleVoteTypeChange}
               >
-                <option value="A">A</option>
-                <option value="B">B</option>
-                <option value="C">C</option>
-                <option value="D">D</option>
+                <option value="Yes/No">Yes or No</option>
+                <option value="A/B/C/D">A/B/C/D</option>
               </Select>
             </FormControl>
           </HStack>
         </Flex>
 
-        {selectedVoteType === "A" && (
-          <Flex>
-            <FormControl>
-              <FormLabel color={"primary.50"}>A</FormLabel>
-              <Input bg={"darkness.500"} placeholder="type a" />
-            </FormControl>
-          </Flex>
-        )}
-        {selectedVoteType === "B" && (
+        {selectedVoteType === "Yes/No" && (
           <Flex justify={"space-between"}>
             <HStack w={'100%'}>
             <FormControl>
-              <FormLabel color={"primary.50"}>A</FormLabel>
-              <Input bg={"darkness.500"} placeholder="type a" />
+              <FormLabel color={"primary.50"}>Yes</FormLabel>
+              <Input bg={"darkness.500"} placeholder="yes" />
             </FormControl>
             <FormControl>
-              <FormLabel color={"primary.50"}>B</FormLabel>
-              <Input bg={"darkness.500"} placeholder="type b" />
+              <FormLabel color={"primary.50"}>No</FormLabel>
+              <Input bg={"darkness.500"} placeholder="no" />
             </FormControl>
             </HStack>
           </Flex>
         )}
-        {selectedVoteType === "C" && (
-          <Flex justify={"space-between"}>
-            <HStack w={'100%'}>
-            <FormControl>
-              <FormLabel color={"primary.50"}>A</FormLabel>
-              <Input bg={"darkness.500"} placeholder="type a" />
-            </FormControl>
-            <FormControl>
-              <FormLabel color={"primary.50"}>B</FormLabel>
-              <Input bg={"darkness.500"} placeholder="type b" />
-            </FormControl>
-            <FormControl>
-              <FormLabel color={"primary.50"}>C</FormLabel>
-              <Input bg={"darkness.500"} placeholder="type c" />
-            </FormControl>
-            </HStack>
-          </Flex>
-        )}
-        {selectedVoteType === "D" && (
+        {selectedVoteType === "A/B/C/D" && (
           <Flex justify={"space-between"}>
             <HStack w={'100%'}>
             <FormControl>
