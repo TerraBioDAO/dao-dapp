@@ -25,7 +25,7 @@ export const CardAnnonce = (props: any) => {
   return (
     <Box>
       <VStack>
-        {listAnnonce.map((item: any) => {
+        {listAnnonce.length > 0 && listAnnonce.map((item: any) => {
           return (
             <Grid
               templateAreas={`"img main"`}

@@ -9,7 +9,7 @@ export default function ProfilePage() {
     return (
         <Box>
 
-            <Text>Profile</Text>
+            <Text>Vote</Text>
 
         </Box>
     );

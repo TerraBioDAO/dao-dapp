@@ -11,7 +11,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { AiTwotoneHeart } from 'react-icons/ai';
-import article from '../../assets/article.svg';
+// import article from '../../assets/article.svg';
 
 export const CardArticle = (props: any) => {
   const { listArticle } = props;
@@ -19,7 +19,7 @@ export const CardArticle = (props: any) => {
   return (
     <Box>
       <VStack spacing={'10px'}>
-        {listArticle.map((item: any) => {
+        {listArticle.length > 0 && listArticle.map((item: any) => {
           return (
             <Grid
               templateAreas={`"img header" "img social"`}
@@ -33,7 +33,7 @@ export const CardArticle = (props: any) => {
               maxW={'80vw'}
             >
               <GridItem area={'img'}>
-                <Image src={article} />
+                {/* <Image src={article} /> */}
               </GridItem>
 
               <GridItem w={'60vw'} area={'header'}>

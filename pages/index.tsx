@@ -11,33 +11,30 @@ export default function Home() {
   const { connect } = useConnect({ connector: new MetaMaskConnector() })
 
   return (
-    <MainLayout>
-      <>
+    <>
 
-        <Text>Home</Text>
+      <Text>Home</Text>
 
+      <Flex justify="center">
+
+        {isConnected ? (
+          <Button onClick={() => disconnect()}>Disconnect</Button>
+        ) : (
+          <Button onClick={() => connect()}>Connect</Button>
+        )}
+
+      </Flex>
+
+
+      {/* Header */}
+      {isConnected && (
         <Flex justify="center">
 
-          {isConnected ? (
-            <Button onClick={() => disconnect()}>Disconnect</Button>
-          ) : (
-            <Button onClick={() => connect()}>Connect</Button>
-          )}
-
+          <Header />
         </Flex>
+      )}
 
 
-        <Flex justify="center">
-
-          {/* Header */}
-          {isConnected && (
-            <Header />
-          )}
-
-        </Flex>
-
-
-      </>
-    </MainLayout>
+    </>
   )
 }

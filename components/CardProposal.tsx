@@ -15,7 +15,7 @@ import {
   WrapItem,
 } from '@chakra-ui/react';
 import { CheckIcon, CloseIcon } from '@chakra-ui/icons';
-import vote from '../../assets/vote.svg';
+// import vote from '../../assets/vote.svg';
 
 export const CardProposal = (props: any) => {
   const { listProposal } = props;
@@ -23,11 +23,11 @@ export const CardProposal = (props: any) => {
   return (
     <Box>
       <Wrap spacing={'24px'} justify={'center'}>
-        {listProposal.map((item: any) => {
+        {listProposal.length > 0 && listProposal.map((item: any) => {
           let totalQuantity = 0;
           let totalValue = 0;
           return (
-            <WrapItem>
+            <WrapItem key={item.id}>
               <Card minW={'xs'} key={item.id} boxShadow="base" bg={'darkness.500'}>
                 <CardHeader>
                   <Flex justify={'space-between'}>
@@ -45,7 +45,7 @@ export const CardProposal = (props: any) => {
 
                 <CardBody>
                   <Flex>
-                    <Image src={vote} />
+                    {/* <Image src={vote} /> */}
                     <Box w={'100%'}>
                       <Flex direction={'column'} justify={'space-between'}>
                         {item.contract.map((item: any) => {
