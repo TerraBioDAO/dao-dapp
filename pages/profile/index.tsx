@@ -6,10 +6,10 @@ import {
 export default function ProfilePage() {
 
     return (
-            <Box>
+        <Box>
 
-                <Text>Profile</Text>
+            <Text>Profile</Text>
 
-            </Box>
+        </Box>
     );
 }

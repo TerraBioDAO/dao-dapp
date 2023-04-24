@@ -11,7 +11,6 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { AiTwotoneHeart } from 'react-icons/ai';
-// import article from '../../assets/article.svg';
 
 export const CardArticle = (props: any) => {
   const { listArticle } = props;
@@ -33,7 +32,7 @@ export const CardArticle = (props: any) => {
               maxW={'80vw'}
             >
               <GridItem area={'img'}>
-                {/* <Image src={article} /> */}
+                <Image src={"/assets/article.svg"} />
               </GridItem>
 
               <GridItem w={'60vw'} area={'header'}>
