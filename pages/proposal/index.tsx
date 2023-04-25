@@ -92,7 +92,7 @@ const Proposal = () => {
       <MainLayout>
         <CreateProposal />
 
-        <CardProposal listProposal={listProposal} />
+        {/* <CardProposal listProposal={listProposal} /> */}
       </MainLayout>
     </Box>
   )

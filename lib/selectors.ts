@@ -4,6 +4,7 @@ export type DaoFunctions = {
   dao_access: Function[]
   fallaback_router: Function[]
   governance: Function[]
+  all: Function[]
 }
 
 export type Function = {
@@ -14,7 +15,8 @@ export type Function = {
 export const getAllFunctions = async (
   router: Contract
 ): Promise<DaoFunctions> => {
-  return _selectorsToDaoFunctions(await router.getSelectorList())
+  const selectors = await router.getSelectorList()
+  return _selectorsToDaoFunctions(selectors)
 }
 
 const _selectorsToDaoFunctions = (selectors: string[]): DaoFunctions => {
@@ -22,6 +24,7 @@ const _selectorsToDaoFunctions = (selectors: string[]): DaoFunctions => {
     dao_access: [],
     fallaback_router: [],
     governance: [],
+    all: [],
   }
 
   selectors.map((selector) => {
@@ -136,5 +139,9 @@ const _selectorsToDaoFunctions = (selectors: string[]): DaoFunctions => {
     }
   })
 
+  daoFunctions.all = daoFunctions.dao_access.concat(
+    daoFunctions.fallaback_router,
+    daoFunctions.governance
+  )
   return daoFunctions
 }

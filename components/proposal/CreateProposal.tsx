@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Flex,
   FormControl,
@@ -9,8 +10,9 @@ import {
   Text,
 } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
+import Call from "./Call"
 
-type ProposalDraft = {
+export type ProposalDraft = {
   startAt: number
   votingPeriod: number
   gracePeriod: number
@@ -117,18 +119,7 @@ const CreateProposal = () => {
 
       {/* CALLS */}
       {draft.calls.map((call, i) => {
-        return (
-          <FormControl mb="5" borderRadius="10" bg="blue.100" p="5" key={call}>
-            <Text fontSize="1.3rem">Call #{i + 1}</Text>
-            <FormLabel>Target address</FormLabel>
-            <Input bg={"darkness.500"} />
-            <FormLabel>Function signature</FormLabel>
-            <Input bg={"darkness.500"} />
-            <FormLabel>Function arguments</FormLabel>
-            <Input bg={"darkness.500"} />
-            {/* Address (=DAO if in dao) Functions name (if in dao) + Args (if in DAO) */}
-          </FormControl>
-        )
+        return <Call key={call} i={i} setDraft={setDraft} call={call} />
       })}
 
       <Button
