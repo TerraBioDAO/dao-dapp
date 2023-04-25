@@ -8,6 +8,7 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
+  Container,
 } from "@chakra-ui/react"
 
 // Components
@@ -38,10 +39,10 @@ export const MainLayout = ({ children }: { children: ReactNode }) => {
 
   return (
     <Grid
+      pb="20"
       templateAreas={`"sidebar nav" "sidebar main"`}
       gridTemplateRows={"60px 1fr"}
       gridTemplateColumns={isOpen ? "230px" : "60px" + " 1fr"}
-      fontWeight="bold"
     >
       <GridItem area={"nav"}>
         <Navbar
@@ -60,7 +61,9 @@ export const MainLayout = ({ children }: { children: ReactNode }) => {
       <ModalSearch openModal={openModal} handleModal={handleOpenModal} />
 
       <GridItem minH="80vh" area={"main"}>
-        <main>{children}</main>
+        <Container as="main" maxW="container.lg" pt="5">
+          {children}
+        </Container>
       </GridItem>
     </Grid>
   )

@@ -7,19 +7,19 @@ import { Contract, Signer } from "ethers"
 import contracts from "../lib/contracts.json"
 import { useAccount } from "wagmi"
 import { getAllCurrentMembers } from "@/lib/members"
-
-export type Dao = {
-  access: Contract
-  router: Contract
-  gov: Contract
-  members: Contract
-}
+import { DaoFunctions, getAllFunctions } from "@/lib/selectors"
+import { Dao } from "@/lib/utils"
 
 const Home = () => {
   const { isConnected, address } = useAccount()
 
   const [dao, setDao] = useState<Dao | null>(null)
   const [members, setMembers] = useState<string[]>([])
+  const [functions, setFunctions] = useState<DaoFunctions>({
+    dao_access: [],
+    governance: [],
+    fallaback_router: [],
+  })
 
   // fetch contracts
   useEffect(() => {
@@ -51,16 +51,17 @@ const Home = () => {
           signerOrProvider: signer,
         })
 
-        setDao({ access, router, gov, members })
+        setDao({ access, router, gov, members, address: mainAddress })
       }
     })()
   }, [isConnected, address])
 
-  // fetch members
+  // fetch members & selectors
   useEffect(() => {
     ;(async () => {
       if (dao) {
         setMembers(await getAllCurrentMembers(dao.members))
+        setFunctions(await getAllFunctions(dao.router))
       }
     })()
   }, [dao])
@@ -68,17 +69,60 @@ const Home = () => {
   return (
     <>
       <MainLayout>
-        <Container pt="5">
-          <Heading>Welcome to Terrabio DAO</Heading>
+        <Heading as="h1">Welcome to Terrabio DAO</Heading>
+        <Text as="i">Terrabio DAO contract: {dao?.address}</Text>
 
-          {/* MEMBERS */}
-          <Heading mt="5" as="h3">
-            Members list:
-          </Heading>
-          {members.map((member) => {
-            return <Text key={member}>{member}</Text>
-          })}
-        </Container>
+        {/* MEMBERS */}
+        <Heading mt="5" as="h2">
+          Members list
+        </Heading>
+        {members.map((member) => {
+          return <Text key={member}>{member}</Text>
+        })}
+
+        {/* SELECTORS */}
+        <Heading mt="5" as="h2">
+          Selectors list
+        </Heading>
+        <Text mt="5" fontWeight="bold">
+          DaoAccess:
+        </Text>
+        {functions.dao_access.map((fn) => {
+          return (
+            <Text key={fn.selector}>
+              {fn.name}{" "}
+              <Text as="span" color="gray.300">
+                ({fn.selector})
+              </Text>
+            </Text>
+          )
+        })}
+        <Text mt="5" fontWeight="bold">
+          FallbackRouter:
+        </Text>
+        {functions.fallaback_router.map((fn) => {
+          return (
+            <Text key={fn.selector}>
+              {fn.name}{" "}
+              <Text as="span" color="gray.300">
+                ({fn.selector})
+              </Text>
+            </Text>
+          )
+        })}
+        <Text mt="5" fontWeight="bold">
+          Governance:
+        </Text>
+        {functions.governance.map((fn) => {
+          return (
+            <Text key={fn.selector}>
+              {fn.name}{" "}
+              <Text as="span" color="gray.300">
+                ({fn.selector})
+              </Text>
+            </Text>
+          )
+        })}
       </MainLayout>
     </>
   )

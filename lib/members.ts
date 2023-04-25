@@ -1,6 +1,4 @@
 import { Contract, Event as EtherEvent, Signer } from "ethers"
-import { getContract } from "@wagmi/core"
-import contracts from "../lib/contracts.json"
 
 // filtering => because not getter so far
 export const getAllCurrentMembers = async (
@@ -31,7 +29,3 @@ export const getAllCurrentMembers = async (
 
   return membersList.map((member) => member.addr)
 }
-
-// const _filterMembers = (in:EtherEvent[],out:EtherEvent[]) => {
-//   //
-// }

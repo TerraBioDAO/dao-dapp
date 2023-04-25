@@ -1,8 +1,14 @@
-import { Box, Text } from "@chakra-ui/react"
-import { HeaderProposal } from "@/components/proposal/HeaderProposal"
+import { useAccount } from "wagmi"
+import { useEffect, useState } from "react"
+import { fetchSigner, getNetwork, getContract } from "@wagmi/core"
+import { Box, Container, Text } from "@chakra-ui/react"
+import contracts from "../../lib/contracts.json"
+
 import { FormProposal } from "@/components/proposal/FormProposal"
 import { CardProposal } from "@/components/proposal/CardProposal"
 import { MainLayout } from "@/components/layouts/Main"
+import { Dao } from "@/lib/utils"
+import CreateProposal from "@/components/proposal/CreateProposal"
 
 const listProposal = [
   {
@@ -40,18 +46,56 @@ const listProposal = [
   },
 ]
 
-export default function ProposalPage() {
+const Proposal = () => {
+  const { isConnected, address } = useAccount()
+
+  const [dao, setDao] = useState<Dao | null>(null)
+  const [members, setMembers] = useState<string[]>([])
+
+  // fetch contracts
+  useEffect(() => {
+    ;(async () => {
+      const signer = await fetchSigner()
+      const chain = getNetwork().chain
+      if (signer && chain && chain.id === 31337) {
+        const mainAddress = contracts.addresses[chain.id].main
+        const abis = contracts.abis
+
+        const access = getContract({
+          address: mainAddress,
+          abi: abis.dao_access,
+          signerOrProvider: signer,
+        })
+        const router = getContract({
+          address: mainAddress,
+          abi: abis.fallback_router,
+          signerOrProvider: signer,
+        })
+        const gov = getContract({
+          address: mainAddress,
+          abi: abis.governance,
+          signerOrProvider: signer,
+        })
+        const members = getContract({
+          address: mainAddress,
+          abi: abis.lib_members,
+          signerOrProvider: signer,
+        })
+
+        setDao({ access, router, gov, members, address: mainAddress })
+      }
+    })()
+  }, [isConnected, address])
+
   return (
     <Box>
       <MainLayout>
-        <Text>Proposal</Text>
-
-        <HeaderProposal />
-
-        <FormProposal />
+        <CreateProposal />
 
         <CardProposal listProposal={listProposal} />
       </MainLayout>
     </Box>
   )
 }
+
+export default Proposal

@@ -6,7 +6,9 @@ import { useAccount, useNetwork } from "wagmi"
 const Network = () => {
   const { chain } = useNetwork()
   const { isConnected } = useAccount()
-  const [chainName, setChainName] = useState<string | undefined>("")
+  const [chainName, setChainName] = useState<string | undefined>(
+    "not connected"
+  )
 
   useEffect(() => {
     console.log(chain)

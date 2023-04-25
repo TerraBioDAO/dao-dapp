@@ -43,6 +43,7 @@ export function Navbar({ isOpen, openModalSearch }: any) {
               textDecoration: "none",
               color: useColorModeValue("gray.800", "white"),
             }}
+            fontWeight="bold"
           >
             Terrabio DAO
           </Link>
