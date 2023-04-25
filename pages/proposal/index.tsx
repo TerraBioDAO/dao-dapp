@@ -1,9 +1,10 @@
 import {
     Box,
+    Grid,
     Text
 } from '@chakra-ui/react';
 import { HeaderProposal } from '@/components/proposal/HeaderProposal';
-import { FormProposal } from '@/components/proposal/FormProposal';
+import { FormProposal, FormProposalId } from '@/components/proposal/FormProposal';
 import { CardProposal } from '@/components/proposal/CardProposal';
 
 const listProposal = [
@@ -50,11 +51,21 @@ export default function ProposalPage() {
 
             <Text>Proposal</Text>
 
-            <HeaderProposal />
-
-            <FormProposal />
+            <Grid py="5" minH="50vh">
+                <HeaderProposal />
+            </Grid>
             
-            <CardProposal listProposal={listProposal} />
+            <Grid py="5" minH="50vh">
+                <FormProposal />
+            </Grid>
+            
+            <Grid py="5" minH="50vh">
+                <CardProposal listProposal={listProposal} />
+            </Grid>
+            
+            <Grid py="5" minH="50vh">
+                <FormProposalId />
+            </Grid>
 
         </Box>
     );
