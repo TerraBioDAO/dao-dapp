@@ -1,4 +1,30 @@
 import { Contract } from "ethers"
+import contracts from "./contracts.json"
+
+// ---
+type AllFunctions = {
+  functions: Impl[]
+}
+
+type Impl = {
+  name: string
+  functions: CompleteFunction[]
+}
+
+type CompleteFunction = {
+  implName: string
+  name: string
+  signature: string
+  input: Args[]
+  output: Args[]
+  selector: string
+}
+
+type Args = {
+  type: string
+  name: string
+}
+// ---
 
 export type DaoFunctions = {
   dao_access: Function[]
@@ -144,4 +170,8 @@ const _selectorsToDaoFunctions = (selectors: string[]): DaoFunctions => {
     daoFunctions.governance
   )
   return daoFunctions
+}
+
+export const readABI = () => {
+  console.log(contracts.abis.dao_access)
 }

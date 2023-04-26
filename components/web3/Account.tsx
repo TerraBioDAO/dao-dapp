@@ -22,7 +22,16 @@ const Account = () => {
   const { disconnect } = useDisconnect()
   const { connect } = useConnect({ connector: new MetaMaskConnector() })
 
+  const [account, setAccount] = useState({ address: "", isConnected: false })
   const [nonce, setNonce] = useState(0)
+
+  useEffect(() => {
+    setAccount(
+      isConnected && address
+        ? { address, isConnected }
+        : { address: "", isConnected: false }
+    )
+  }, [address, isConnected])
 
   useEffect(() => {
     ;(async () => {
@@ -35,15 +44,17 @@ const Account = () => {
 
   return (
     <>
-      {isConnected ? (
+      {account.isConnected ? (
         <>
           <Button
             colorScheme="cyan"
             variant="outline"
             onClick={() => onOpen()}
             maxW="15ch"
+            isTruncated={true}
+            display="inline-block"
           >
-            <Text isTruncated={true}>{address}</Text>
+            {account.address}
           </Button>
         </>
       ) : (

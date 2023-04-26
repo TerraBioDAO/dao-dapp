@@ -23,7 +23,7 @@ export type ProposalDraft = {
 const CreateProposal = () => {
   const [time, setTime] = useState(0)
   const [draft, setDraft] = useState<ProposalDraft>({
-    startAt: 0,
+    startAt: Math.floor(Date.now() / 1000),
     votingPeriod: 0,
     gracePeriod: 0,
     threshold: 0,

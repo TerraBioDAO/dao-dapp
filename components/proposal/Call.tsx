@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Flex,
   FormControl,
   FormLabel,
@@ -10,6 +11,8 @@ import {
 } from "@chakra-ui/react"
 import { Dispatch, SetStateAction, useState } from "react"
 import { ProposalDraft } from "./CreateProposal"
+import { useDao } from "@/lib/useDao"
+import { readABI } from "@/lib/selectors"
 
 type Props = {
   i: number
@@ -18,12 +21,14 @@ type Props = {
 }
 
 const Call = ({ call, setDraft, i }: Props) => {
+  const { dao, functions } = useDao()
   const [onDao, setOnDao] = useState(false)
 
   const [target, setTarget] = useState("")
 
   return (
-    <Box p="3" bg="blue.900" borderRadius="5">
+    <Box p="3" bg="cyan.500" borderRadius="5">
+      <Button onClick={() => readABI()}>log</Button>
       <Flex>
         <Text minW="10ch">Call #{i + 1}</Text>
 
@@ -33,7 +38,17 @@ const Call = ({ call, setDraft, i }: Props) => {
             Call on the DAO?
           </FormLabel>
           <Switch
-            onChange={() => setOnDao((o) => !o)}
+            onChange={() =>
+              setOnDao((o) => {
+                if (!o) {
+                  setTarget(dao.address)
+                  return true
+                } else {
+                  setTarget("")
+                  return false
+                }
+              })
+            }
             colorScheme="teal"
             id="multi"
           />
@@ -56,7 +71,35 @@ const Call = ({ call, setDraft, i }: Props) => {
       <FormControl>
         <FormLabel>Method</FormLabel>
         {onDao ? (
-          <Select></Select>
+          <Select bg={"darkness.500"}>
+            <optgroup label="DaoAccess">
+              {functions.dao_access.map((fn) => {
+                return (
+                  <option key={fn.selector} value={fn.selector}>
+                    {fn.name}
+                  </option>
+                )
+              })}
+            </optgroup>
+            <optgroup label="FallbackRouter">
+              {functions.fallaback_router.map((fn) => {
+                return (
+                  <option key={fn.selector} value={fn.selector}>
+                    {fn.name}
+                  </option>
+                )
+              })}
+            </optgroup>
+            <optgroup label="Governance">
+              {functions.governance.map((fn) => {
+                return (
+                  <option key={fn.selector} value={fn.selector}>
+                    {fn.name}
+                  </option>
+                )
+              })}
+            </optgroup>
+          </Select>
         ) : (
           <Input
             bg="white"

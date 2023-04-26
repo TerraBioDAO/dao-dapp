@@ -3,11 +3,14 @@
 
 TODO:
 
-- [ ] Put contracts, selectors and members in a context
-- [ ] Allow custom call (+only ether send)
+- [x] Put contracts, selectors and members in a context
+- [ ] Options on calls:
+  - [ ] Allow custom call (+only ether send)
+  - [ ] Raw calls in a text area 
+  - [ ] Management of ERC721
 - [ ] Display proposals
 - [ ] Switch network in Network
 - [ ] Proposal execution details
 - [ ] Button for writing smart contracts
 - [ ] Event when vote => proposal progression
-- [ ] Management of ERC721
+- [ ] Extract errors selectors (need computation => neither compiler nor foundry allow to give them)
