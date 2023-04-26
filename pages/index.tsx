@@ -1,4 +1,4 @@
-import { Button, Container, Heading, Text } from "@chakra-ui/react"
+import { Box, Button, Heading, Text } from "@chakra-ui/react"
 import { MainLayout } from "@/components/layouts/Main"
 import { useDao } from "@/lib/useDao"
 
@@ -10,6 +10,8 @@ const Home = () => {
       <MainLayout>
         <Heading as="h1">Welcome to Terrabio DAO</Heading>
         <Text as="i">Terrabio DAO contract: {dao?.address}</Text>
+
+        {/* <Button onClick={() => console.log(readABI())}>LOG</Button> */}
 
         {/* MEMBERS */}
         <Heading mt="5" as="h2">
@@ -23,43 +25,24 @@ const Home = () => {
         <Heading mt="5" as="h2">
           Selectors list
         </Heading>
-        <Text mt="5" fontWeight="bold">
-          DaoAccess:
-        </Text>
-        {functions.dao_access.map((fn) => {
+        {functions.map((impl) => {
           return (
-            <Text key={fn.selector}>
-              {fn.name}{" "}
-              <Text as="span" color="gray.300">
-                ({fn.selector})
+            <Box key={impl.name}>
+              <Text mt="5" fontWeight="bold">
+                {impl.name}{" "}
               </Text>
-            </Text>
-          )
-        })}
-        <Text mt="5" fontWeight="bold">
-          FallbackRouter:
-        </Text>
-        {functions.fallaback_router.map((fn) => {
-          return (
-            <Text key={fn.selector}>
-              {fn.name}{" "}
-              <Text as="span" color="gray.300">
-                ({fn.selector})
-              </Text>
-            </Text>
-          )
-        })}
-        <Text mt="5" fontWeight="bold">
-          Governance:
-        </Text>
-        {functions.governance.map((fn) => {
-          return (
-            <Text key={fn.selector}>
-              {fn.name}{" "}
-              <Text as="span" color="gray.300">
-                ({fn.selector})
-              </Text>
-            </Text>
+
+              {impl.functions.map((fn) => {
+                return (
+                  <Text key={fn.selector}>
+                    {fn.name}{" "}
+                    <Text as="span" color="gray.300">
+                      ({fn.selector})
+                    </Text>
+                  </Text>
+                )
+              })}
+            </Box>
           )
         })}
       </MainLayout>

@@ -118,10 +118,6 @@ const CreateProposal = () => {
       <Text>Actual Time: {time}</Text>
 
       {/* CALLS */}
-      {draft.calls.map((call, i) => {
-        return <Call key={call} i={i} setDraft={setDraft} call={call} />
-      })}
-
       <Button
         onClick={() =>
           setDraft((d) => {
@@ -131,6 +127,10 @@ const CreateProposal = () => {
       >
         Add a call
       </Button>
+
+      {draft.calls.map((call, i) => {
+        return <Call key={call + i} i={i} setDraft={setDraft} call={call} />
+      })}
 
       {/* SUBMIT */}
       <Button my="5" colorScheme="green">

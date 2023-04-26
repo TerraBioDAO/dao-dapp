@@ -8,6 +8,8 @@ TODO:
   - [ ] Allow custom call (+only ether send)
   - [ ] Raw calls in a text area 
   - [ ] Management of ERC721
+  - [ ] Raw calls visual construction
+  - [ ] ABI encode calls
 - [ ] Display proposals
 - [ ] Switch network in Network
 - [ ] Proposal execution details
