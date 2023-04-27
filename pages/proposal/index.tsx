@@ -9,7 +9,7 @@ import { HeaderProposal } from "@/components/proposal/HeaderProposal"
 import { MainLayout } from "@/components/layouts/Main"
 import { Dao } from "@/lib/utils"
 import CreateProposal from "@/components/proposal/CreateProposal"
-import { FormProposal } from "@/components/proposal/FormProposal"
+import { FormProposalId } from "@/components/proposal/FormProposal"
 
 const listProposal = [
   {
@@ -60,12 +60,12 @@ const Proposal = () => {
           {/* <FormProposal /> */}
         </Grid>
 
-        {/* <Grid py="5" minH="50vh">
-          <CardProposal listProposal={listProposal} />
-        </Grid>
-
         <Grid py="5" minH="50vh">
           <FormProposalId />
+        </Grid>
+
+        {/* <Grid py="5" minH="50vh">
+          <CardProposal listProposal={listProposal} />
         </Grid> */}
       </MainLayout>
     </Box>
