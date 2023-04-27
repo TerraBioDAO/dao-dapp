@@ -9,14 +9,20 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   Container,
+  Text,
+  Heading,
+  List,
+  ListItem,
 } from "@chakra-ui/react"
 
 // Components
 import { Navbar } from "@/components/layouts/Navbar"
 import { Sidebar } from "@/components/layouts/Sidebar"
 import { ModalSearch } from "@/components/layouts/ModalSearch"
+import { useDao } from "@/lib/useDao"
 
 export const MainLayout = ({ children }: { children: ReactNode }) => {
+  const { dao } = useDao()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const router = useRouter()
   const [openModal, setOpenModal] = useState(false)
@@ -62,7 +68,21 @@ export const MainLayout = ({ children }: { children: ReactNode }) => {
 
       <GridItem minH="80vh" area={"main"}>
         <Container as="main" maxW="container.lg" pt="5">
-          {children}
+          {dao === null ? (
+            <>
+              <Heading>
+                DAO is not initializated, ensure you are on the right network
+              </Heading>
+              <Text>Network supported:</Text>
+              <List>
+                <ListItem>31337 (if deployed)</ListItem>
+                <ListItem>420 (soon)</ListItem>
+                <ListItem>10 (soon soon)</ListItem>
+              </List>
+            </>
+          ) : (
+            children
+          )}
         </Container>
       </GridItem>
     </Grid>

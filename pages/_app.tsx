@@ -4,6 +4,7 @@ import { ChakraProvider } from "@chakra-ui/react"
 import { WagmiConfig, createClient } from "wagmi"
 import { MetaMaskConnector } from "@wagmi/core/connectors/metaMask"
 import { getDefaultProvider } from "ethers"
+import DaoProvider from "@/context/DaoContext"
 
 const client = createClient({
   autoConnect: true,
@@ -22,7 +23,9 @@ const App = ({ Component, pageProps }: AppProps) => {
     <ChakraProvider>
       <WagmiConfig client={client}>
         {/* <RainbowKitProvider chains={chains}> */}
-        <Component {...pageProps} />
+        <DaoProvider>
+          <Component {...pageProps} />
+        </DaoProvider>
         {/* </RainbowKitProvider> */}
       </WagmiConfig>
     </ChakraProvider>

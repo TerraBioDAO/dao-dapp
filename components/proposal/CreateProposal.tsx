@@ -11,7 +11,6 @@ import {
 } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { useContractWrite, usePrepareContractWrite } from "wagmi"
-import { GovernanceABI } from "@/config/GovernanceABI";
 import Call from "./Call"
 
 export type ProposalDraft = {
@@ -25,21 +24,12 @@ export type ProposalDraft = {
 const CreateProposal = () => {
   const [time, setTime] = useState(0)
   const [draft, setDraft] = useState<ProposalDraft>({
-    startAt: 0,
+    startAt: Math.floor(Date.now() / 1000),
     votingPeriod: 0,
     gracePeriod: 0,
     threshold: 0,
     calls: [],
   })
-
-  const { config, error } = usePrepareContractWrite({
-    address: '0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9',
-    abi: GovernanceABI,
-    functionName: 'propose',
-    args: [1882950011, 86400, 0, 8000, []]
-})
-
-  const { write } = useContractWrite(config)
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -129,10 +119,6 @@ const CreateProposal = () => {
       <Text>Actual Time: {time}</Text>
 
       {/* CALLS */}
-      {draft.calls.map((call, i) => {
-        return <Call key={call} i={i} setDraft={setDraft} call={call} />
-      })}
-
       <Button
         onClick={() =>
           setDraft((d) => {
@@ -143,8 +129,12 @@ const CreateProposal = () => {
         Add a call
       </Button>
 
+      {draft.calls.map((call, i) => {
+        return <Call key={call + i} i={i} setDraft={setDraft} call={call} />
+      })}
+
       {/* SUBMIT */}
-      <Button my="5" colorScheme="green" onClick={() => write?.()}>
+      <Button my="5" colorScheme="green">
         Submit
       </Button>
     </>

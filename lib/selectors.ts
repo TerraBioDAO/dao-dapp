@@ -1,147 +1,237 @@
 import { Contract } from "ethers"
+import contracts from "./contracts.json"
 
-export type DaoFunctions = {
-  dao_access: Function[]
-  fallaback_router: Function[]
-  governance: Function[]
-  all: Function[]
+export type DaoMethods = Implementation[]
+
+type Implementation = {
+  name: string
+  functions: Method[]
 }
 
-export type Function = {
+type Method = {
+  implName: string
   name: string
+  signature: string
+  stateMutability: string
+  inputs: Args[]
+  outputs: Args[]
   selector: string
 }
 
-export const getAllFunctions = async (
-  router: Contract
-): Promise<DaoFunctions> => {
-  const selectors = await router.getSelectorList()
-  return _selectorsToDaoFunctions(selectors)
+export type Args = {
+  type: string
+  name: string
 }
 
-const _selectorsToDaoFunctions = (selectors: string[]): DaoFunctions => {
-  const daoFunctions: DaoFunctions = {
-    dao_access: [],
-    fallaback_router: [],
-    governance: [],
-    all: [],
-  }
+export const loadDaoMethods = async (router: Contract): Promise<DaoMethods> => {
+  const selectorsList = await _getSelectorList(router)
+  const daoMethods: DaoMethods = []
 
-  selectors.map((selector) => {
-    switch (selector) {
-      // ----------------------------- DaoAccess
-      case "0x248a9ca3":
-        daoFunctions.dao_access.push({
-          name: "getRoleAdmin(bytes32)",
-          selector,
-        })
-        break
-      case "0x2f2ff15d":
-        daoFunctions.dao_access.push({
-          name: "grantRole(bytes32,address)",
-          selector,
-        })
-        break
-      case "0x91d14854":
-        daoFunctions.dao_access.push({
-          name: "hasRole(bytes32,address)",
-          selector,
-        })
-        break
-      case "0x36568abe":
-        daoFunctions.dao_access.push({
-          name: "renounceRole(bytes32,address)",
-          selector,
-        })
-        break
-      case "0xd547741f":
-        daoFunctions.dao_access.push({
-          name: "revokeRole(bytes32,address)",
-          selector,
-        })
-        break
-      case "0xdfde5e58":
-        daoFunctions.dao_access.push({
-          name: "setAdminRole(bytes32,bytes32)",
-          selector,
-        })
-        break
+  selectorsList.forEach((selector: string) => {
+    const method = __selectorToMethod(selector)
 
-      // -------------------------------------- FallabackRouter
-      case "0xc7467a2d":
-        daoFunctions.fallaback_router.push({
-          name: "batchUpdateFunction(bytes4[],address[])",
-          selector,
-        })
-        break
-      case "0x18a9bb16":
-        daoFunctions.fallaback_router.push({
-          name: "getFunctionHistory(bytes4)",
-          selector,
-        })
-        break
-      case "0xfdea4290":
-        daoFunctions.fallaback_router.push({
-          name: "getFunctionImpl(bytes4)",
-          selector,
-        })
-        break
-      case "0x2c305779":
-        daoFunctions.fallaback_router.push({
-          name: "getSelectorList()",
-          selector,
-        })
-        break
-      case "0x1bdf1eff":
-        daoFunctions.fallaback_router.push({
-          name: "rollback(bytes4)",
-          selector,
-        })
-        break
-      case "0x1eea9243":
-        daoFunctions.fallaback_router.push({
-          name: "updateFunction(bytes4,address)",
-          selector,
-        })
-        break
+    // new impl
+    let index = daoMethods.findIndex((impl) => impl.name === method.implName)
+    if (index === -1) {
+      index = daoMethods.push({ name: method.implName, functions: [] }) - 1
+    }
 
-      // ----------------------------------- Governance
-      case "0xe0a8f6f5":
-        daoFunctions.governance.push({
-          name: "cancelProposal(uint256)",
-          selector,
-        })
-        break
-      case "0xfe0d94c1":
-        daoFunctions.governance.push({ name: "execute(uint256)", selector })
-        break
-      case "0xc7f758a8":
-        daoFunctions.governance.push({ name: "getProposal(uint256)", selector })
-        break
-      case "0x401853b7":
-        daoFunctions.governance.push({
-          name: "getProposalStatus(uint256)",
-          selector,
-        })
-        break
-      case "0x678abbf7":
-        daoFunctions.governance.push({
-          name: "propose(uint48,uint48,uint48,uint16,bytes[])",
-          selector,
-        })
-        break
-      case "0xb384abef":
-        daoFunctions.governance.push({
-          name: "vote(uint256,uint256)",
-          selector,
-        })
-        break
+    // add methods
+    daoMethods[index].functions.push(method)
+  })
+
+  return daoMethods
+}
+
+const _getSelectorList = async (router: Contract): Promise<string[]> => {
+  return await router.getSelectorList()
+}
+
+const _extractFromABI = (
+  implName: string,
+  abi: any[],
+  signature: string,
+  selector: string
+): Method => {
+  const name = signature.split("(")[0]
+  const elem: any | undefined = abi.find((elem: any) => {
+    if (elem.type === "function") {
+      return elem.name === name
     }
   })
 
-  daoFunctions.all = daoFunctions.dao_access.concat(
-    daoFunctions.fallaback_router,
-    daoFunctions.governance
-  )
-  return daoFunctions
+  if (elem) {
+    elem.inputs.map((input: any) => {
+      return { type: input.type, name: input.name }
+    })
+    elem.outputs.map((output: any) => {
+      return { type: output.type, name: output.name }
+    })
+  }
+
+  return {
+    implName,
+    name,
+    selector,
+    inputs: elem.inputs,
+    outputs: elem.outputs,
+    signature,
+    stateMutability: elem.stateMutability,
+  }
+}
+
+const __selectorToMethod = (selector: string): Method => {
+  switch (selector) {
+    // ----------------------------- DaoAccess
+    case "0x248a9ca3":
+      return _extractFromABI(
+        "DaoAccess",
+        contracts.abis.dao_access,
+        "getRoleAdmin(bytes32)",
+        selector
+      )
+
+    case "0x2f2ff15d":
+      return _extractFromABI(
+        "DaoAccess",
+        contracts.abis.dao_access,
+        "grantRole(bytes32,address)",
+        selector
+      )
+
+    case "0x91d14854":
+      return _extractFromABI(
+        "DaoAccess",
+        contracts.abis.dao_access,
+        "hasRole(bytes32,address)",
+        selector
+      )
+
+    case "0x36568abe":
+      return _extractFromABI(
+        "DaoAccess",
+        contracts.abis.dao_access,
+        "renounceRole(bytes32,address)",
+        selector
+      )
+
+    case "0xd547741f":
+      return _extractFromABI(
+        "DaoAccess",
+        contracts.abis.dao_access,
+        "revokeRole(bytes32,address)",
+        selector
+      )
+
+    case "0xdfde5e58":
+      return _extractFromABI(
+        "DaoAccess",
+        contracts.abis.dao_access,
+        "setAdminRole(bytes32,bytes32)",
+        selector
+      )
+
+    // -------------------------------------- FallabackRouter
+    case "0xc7467a2d":
+      return _extractFromABI(
+        "FallbackRouter",
+        contracts.abis.fallback_router,
+        "batchUpdateFunction(bytes4[],address[])",
+        selector
+      )
+
+    case "0x18a9bb16":
+      return _extractFromABI(
+        "FallbackRouter",
+        contracts.abis.fallback_router,
+        "getFunctionHistory(bytes4)",
+        selector
+      )
+
+    case "0xfdea4290":
+      return _extractFromABI(
+        "FallbackRouter",
+        contracts.abis.fallback_router,
+        "getFunctionImpl(bytes4)",
+        selector
+      )
+
+    case "0x2c305779":
+      return _extractFromABI(
+        "FallbackRouter",
+        contracts.abis.fallback_router,
+        "getSelectorList()",
+        selector
+      )
+
+    case "0x1bdf1eff":
+      return _extractFromABI(
+        "FallbackRouter",
+        contracts.abis.fallback_router,
+        "rollback(bytes4)",
+        selector
+      )
+
+    case "0x1eea9243":
+      return _extractFromABI(
+        "FallbackRouter",
+        contracts.abis.fallback_router,
+        "updateFunction(bytes4,address)",
+        selector
+      )
+
+    // ----------------------------------- Governance
+    case "0xe0a8f6f5":
+      return _extractFromABI(
+        "Governance",
+        contracts.abis.governance,
+        "cancelProposal(uint256)",
+        selector
+      )
+
+    case "0xfe0d94c1":
+      return _extractFromABI(
+        "Governance",
+        contracts.abis.governance,
+        "execute(uint256)",
+        selector
+      )
+
+    case "0xc7f758a8":
+      return _extractFromABI(
+        "Governance",
+        contracts.abis.governance,
+        "getProposal(uint256)",
+        selector
+      )
+
+    case "0x401853b7":
+      return _extractFromABI(
+        "Governance",
+        contracts.abis.governance,
+        "getProposalStatus(uint256)",
+        selector
+      )
+
+    case "0x678abbf7":
+      return _extractFromABI(
+        "Governance",
+        contracts.abis.governance,
+        "propose(uint48,uint48,uint48,uint16,bytes[])",
+        selector
+      )
+
+    case "0xb384abef":
+      return _extractFromABI(
+        "Governance",
+        contracts.abis.governance,
+        "vote(uint256,uint256)",
+        selector
+      )
+
+    default:
+      throw new Error(
+        `An unknown selector has been detected: ${selector}, add it into the list or automatise the process`
+      )
+  }
 }

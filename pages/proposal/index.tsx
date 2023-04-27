@@ -4,7 +4,6 @@ import { fetchSigner, getNetwork, getContract } from "@wagmi/core"
 import { Box, Container, Grid, Text } from "@chakra-ui/react"
 import contracts from "../../lib/contracts.json"
 
-import { FormProposal, FormProposalId } from '@/components/proposal/FormProposal';
 import { CardProposal } from "@/components/proposal/CardProposal"
 import { HeaderProposal } from "@/components/proposal/HeaderProposal"
 import { MainLayout } from "@/components/layouts/Main"
@@ -48,67 +47,25 @@ const listProposal = [
 ]
 
 const Proposal = () => {
-  const { isConnected, address } = useAccount()
-
-  const [dao, setDao] = useState<Dao | null>(null)
-  const [members, setMembers] = useState<string[]>([])
-
-  // fetch contracts
-  useEffect(() => {
-    ; (async () => {
-      const signer = await fetchSigner()
-      const chain = getNetwork().chain
-      if (signer && chain && chain.id === 31337) {
-        const mainAddress = contracts.addresses[chain.id].main
-        const abis = contracts.abis
-
-        const access = getContract({
-          address: mainAddress,
-          abi: abis.dao_access,
-          signerOrProvider: signer,
-        })
-        const router = getContract({
-          address: mainAddress,
-          abi: abis.fallback_router,
-          signerOrProvider: signer,
-        })
-        const gov = getContract({
-          address: mainAddress,
-          abi: abis.governance,
-          signerOrProvider: signer,
-        })
-        const members = getContract({
-          address: mainAddress,
-          abi: abis.lib_members,
-          signerOrProvider: signer,
-        })
-
-        setDao({ access, router, gov, members, address: mainAddress })
-      }
-    })()
-  }, [isConnected, address])
-
   return (
     <Box>
       <MainLayout>
-
-        <Grid py="5" minH="50vh">
+        {/* <Grid py="5" minH="50vh">
           <HeaderProposal />
-        </Grid>
+        </Grid> */}
 
         <Grid py="5" minH="50vh">
           <CreateProposal />
           {/* <FormProposal /> */}
         </Grid>
 
-        <Grid py="5" minH="50vh">
+        {/* <Grid py="5" minH="50vh">
           <CardProposal listProposal={listProposal} />
         </Grid>
 
         <Grid py="5" minH="50vh">
           <FormProposalId />
-        </Grid>
-
+        </Grid> */}
       </MainLayout>
     </Box>
   )

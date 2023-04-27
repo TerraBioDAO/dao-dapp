@@ -9,21 +9,25 @@ const Network = () => {
   const [chainName, setChainName] = useState<string | undefined>(
     "not connected"
   )
+  const [chainID, setchainID] = useState<number>(0)
 
   useEffect(() => {
-    console.log(chain)
     switch (getNetwork().chain?.id) {
       case 31337:
         setChainName("localhost:8545")
+        setchainID(31337)
         break
       case 420:
         setChainName("Optimism goerli")
+        setchainID(420)
         break
       case undefined:
         setChainName("not connected")
+        setchainID(0)
         break
       default:
         setChainName(getNetwork().chain?.name)
+        setchainID(Number(getNetwork().chain?.id))
     }
   }, [chain, isConnected])
 
@@ -64,7 +68,7 @@ const Network = () => {
           />
         </Icon>
         <Text>
-          {chainName} ({getNetwork().chain?.id})
+          {chainName} ({chainID})
         </Text>
       </Badge>
 
