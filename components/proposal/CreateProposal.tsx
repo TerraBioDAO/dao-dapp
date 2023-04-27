@@ -11,6 +11,7 @@ import {
   useToast,
 } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
+import { useContractWrite, usePrepareContractWrite } from "wagmi"
 import Call from "./Call"
 import { submit } from "@/lib/submit"
 import { useDao } from "@/lib/useDao"
