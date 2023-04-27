@@ -9,6 +9,7 @@ import { HeaderProposal } from "@/components/proposal/HeaderProposal"
 import { MainLayout } from "@/components/layouts/Main"
 import { Dao } from "@/lib/utils"
 import CreateProposal from "@/components/proposal/CreateProposal"
+import { FormProposal } from "@/components/proposal/FormProposal"
 
 const listProposal = [
   {

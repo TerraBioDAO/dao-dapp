@@ -4,8 +4,13 @@ import { Contract, Event as EtherEvent, Signer } from "ethers"
 export const getAllCurrentMembers = async (
   members: Contract
 ): Promise<string[]> => {
-  const joinned = members.filters.MembersUpdated(null, true)
+  // create filters
+  const joinned = members.filters.MembersUpdated(null, true) // (indexed,indexed)
   const quitted = members.filters.MembersUpdated(null, false)
+
+  // console.log(await members.queryFilter("MembersUpdated"))
+
+  // get events
 
   const membersEntries = (await members.queryFilter(joinned)).map((event) =>
     event.args

@@ -9,7 +9,7 @@ TODO:
   - [ ] Raw calls in a text area 
   - [ ] Management of ERC721
   - [x] Raw calls visual construction
-  - [x] ABI encode calls
+  - [ ] ABI encode calls => wrong encode
 - [ ] Display proposals
 - [ ] Switch network in Network
 - [ ] Proposal execution details

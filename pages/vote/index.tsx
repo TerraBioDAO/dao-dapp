@@ -5,6 +5,7 @@ import { vote } from "@/lib/vote"
 import { useState } from "react"
 import { TxProgression } from "@/lib/utils"
 import { useDao } from "@/lib/useDao"
+import { execute } from "@/lib/execute"
 
 const listArticle = [
   {
@@ -64,6 +65,19 @@ const Vote = () => {
           }
         >
           Vote on proposal 1
+        </Button>
+
+        <Button
+          isLoading={
+            txProgression === "Waiting for confirmation" ||
+            txProgression === "Pending"
+          }
+          loadingText={txProgression}
+          onClick={() =>
+            dao ? execute(dao?.gov, 1, setTxProgression, toast) : ""
+          }
+        >
+          Execute 1
         </Button>
       </MainLayout>
       {/* <Text>Vote</Text>

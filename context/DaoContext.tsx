@@ -42,6 +42,7 @@ const DaoProvider = ({ children }: Props) => {
           const mainAddress = contracts.addresses[chain.id].main
           const abis = contracts.abis
 
+          // implementation
           const access = getContract({
             address: mainAddress,
             abi: abis.dao_access,
@@ -52,16 +53,24 @@ const DaoProvider = ({ children }: Props) => {
             abi: abis.fallback_router,
             signerOrProvider: signer,
           })
+
           const gov = getContract({
             address: mainAddress,
             abi: abis.governance,
             signerOrProvider: signer,
           })
+
+          // libraries
+          console.log("load contract")
           const members = getContract({
             address: mainAddress,
             abi: abis.lib_members,
             signerOrProvider: signer,
           })
+          // .on("Proposed", (proposalId, proposer) => {
+          //   console.log(proposalId)
+          //   console.log(proposer)
+          // })
 
           setDao({ access, router, gov, members, address: mainAddress })
         } else {
@@ -75,6 +84,10 @@ const DaoProvider = ({ children }: Props) => {
   useEffect(() => {
     ;(async () => {
       if (dao) {
+        dao.members.on("MembersUpdated", (address, bool) => {
+          console.log(address)
+          console.log(bool)
+        })
         setMembers(await getAllCurrentMembers(dao.members))
         setFunctions(await loadDaoMethods(dao.router))
       }
