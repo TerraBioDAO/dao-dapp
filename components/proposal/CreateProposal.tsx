@@ -8,9 +8,12 @@ import {
   Input,
   Select,
   Text,
+  useToast,
 } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import Call from "./Call"
+import { TxProgression, submit } from "@/lib/submit"
+import { useDao } from "@/lib/useDao"
 
 export type ProposalDraft = {
   startAt: number
@@ -21,6 +24,10 @@ export type ProposalDraft = {
 }
 
 const CreateProposal = () => {
+  const toast = useToast()
+  const { dao } = useDao()
+
+  const [txProgression, setTxProgression] = useState<TxProgression>()
   const [time, setTime] = useState(0)
   const [draft, setDraft] = useState<ProposalDraft>({
     startAt: Math.floor(Date.now() / 1000),
@@ -133,8 +140,33 @@ const CreateProposal = () => {
       })}
 
       {/* SUBMIT */}
-      <Button my="5" colorScheme="green">
+      <Button
+        me="4"
+        isLoading={
+          txProgression === "Waiting for confirmation" ||
+          txProgression === "Pending"
+        }
+        loadingText={txProgression}
+        colorScheme="green"
+        onClick={() => {
+          if (dao) {
+            console.log(draft)
+            submit(dao.gov, draft, setTxProgression, toast)
+          }
+        }}
+      >
         Submit
+      </Button>
+
+      <Button
+        onClick={() => {
+          dao?.gov.interface.fragments.forEach((e, i) => {
+            console.log(dao.gov.interface.getSighash(e))
+            console.log(e)
+          })
+        }}
+      >
+        Log
       </Button>
     </>
   )

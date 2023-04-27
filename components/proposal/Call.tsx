@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   CloseButton,
+  Code,
   Flex,
   FormControl,
   FormLabel,
@@ -17,6 +18,7 @@ import { ProposalDraft } from "./CreateProposal"
 import { useDao } from "@/lib/useDao"
 import { Args } from "@/lib/selectors"
 import { CloseIcon } from "@chakra-ui/icons"
+import { ethers } from "ethers"
 
 type Props = {
   i: number
@@ -35,12 +37,39 @@ const Call = ({ call, setDraft, i }: Props) => {
     args: any[]
   }>({ signature: "", inputs: [], args: [] })
 
+  function saveCall() {
+    // extract from signature
+    const name = method.signature.split("(")[0]
+    const isPayable = false
+
+    // create an interface
+    const abi = new ethers.utils.Interface([
+      `function ${method.signature}${isPayable ? " payable" : ""}`,
+    ])
+
+    // abi.getSighash(name)
+
+    // encode call
+    const encodedCall = abi.encodeFunctionData(name, method.args)
+
+    // check call
+    console.log(encodedCall)
+
+    // store call
+    setDraft((d) => {
+      d.calls[i] = ethers.utils.hexConcat([target, encodedCall])
+      return d
+    })
+  }
+
   return (
     <Box p="3" bg="cyan.500" borderRadius="5" my="5">
       <Flex mb="3" alignItems="center">
         <Text fontSize="1.3rem" minW="10ch">
           Call #{i + 1}
         </Text>
+
+        <Button onClick={() => saveCall()}>Save Tx</Button>
 
         {/* ON DAO? */}
         <FormControl display="flex" alignItems="center">
@@ -142,8 +171,6 @@ const Call = ({ call, setDraft, i }: Props) => {
         )}
       </FormControl>
 
-      <Button onClick={() => console.log(method.args)}>LOG</Button>
-
       {/* ARGUMENTS */}
       {method.inputs.map((input, index) => {
         return (
@@ -162,6 +189,29 @@ const Call = ({ call, setDraft, i }: Props) => {
           </FormControl>
         )
       })}
+
+      {/* RESULT */}
+      <Text mt="5">
+        Raw call:{" "}
+        <Text color="pink.300" as="span">
+          target address
+        </Text>
+        <Text as="span"> - </Text>
+        <Text color="green.300" as="span">
+          selector
+        </Text>
+        <Text as="span"> - </Text>
+        <Text as="span">args</Text>
+      </Text>
+      <Code maxW="container.md" p="3">
+        <Text color="pink.300" as="span">
+          {call.slice(0, 42)}
+        </Text>
+        <Text color="green.300" as="span">
+          {call.slice(43, 51)}
+        </Text>
+        {call.slice(52)}
+      </Code>
     </Box>
   )
 }
