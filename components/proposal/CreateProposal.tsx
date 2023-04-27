@@ -12,8 +12,9 @@ import {
 } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import Call from "./Call"
-import { TxProgression, submit } from "@/lib/submit"
+import { submit } from "@/lib/submit"
 import { useDao } from "@/lib/useDao"
+import { TxProgression } from "@/lib/utils"
 
 export type ProposalDraft = {
   startAt: number
@@ -139,6 +140,13 @@ const CreateProposal = () => {
         return <Call key={call + i} i={i} setDraft={setDraft} call={call} />
       })}
 
+      <Text>
+        ➜ bytes32(0) Type: bytes32 └ Data:
+        0x0000000000000000000000000000000000000000000000000000000000000000 ➜
+        address(vm.addr(5)) Type: address └ Data:
+        0xe1ab8145f7e55dc933d51a18c793f901a3a0b276
+      </Text>
+
       {/* SUBMIT */}
       <Button
         me="4"
@@ -150,7 +158,6 @@ const CreateProposal = () => {
         colorScheme="green"
         onClick={() => {
           if (dao) {
-            console.log(draft)
             submit(dao.gov, draft, setTxProgression, toast)
           }
         }}

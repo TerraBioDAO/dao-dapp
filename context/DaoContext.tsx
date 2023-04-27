@@ -29,12 +29,14 @@ const DaoProvider = ({ children }: Props) => {
   const [dao, setDao] = useState<Dao | null>(null)
   const [members, setMembers] = useState<string[]>([])
   const [functions, setFunctions] = useState<DaoMethods>([])
+  // proposals
 
   // fetch contracts
   useEffect(() => {
     setTimeout(() => {
       ;(async () => {
         const signer = await fetchSigner()
+        // create Provider read-only
         const chain = getNetwork().chain
         if (signer && chain && chain.id === 31337) {
           const mainAddress = contracts.addresses[chain.id].main

@@ -4,10 +4,6 @@ import { fetchSigner, getNetwork, getContract } from "@wagmi/core"
 import { Box, Container, Grid, Text } from "@chakra-ui/react"
 import contracts from "../../lib/contracts.json"
 
-import {
-  FormProposal,
-  FormProposalId,
-} from "@/components/proposal/FormProposal"
 import { CardProposal } from "@/components/proposal/CardProposal"
 import { HeaderProposal } from "@/components/proposal/HeaderProposal"
 import { MainLayout } from "@/components/layouts/Main"
