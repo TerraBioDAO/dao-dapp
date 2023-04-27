@@ -4,6 +4,7 @@ import {
 } from '@chakra-ui/react';
 
 import { CardAnnonce } from '@/components/vote/CardAnnonce';
+import { MainLayout } from '@/components/layouts/Main';
 
 const listAnnonce = [
     {
@@ -31,12 +32,12 @@ const listAnnonce = [
 export default function ProfilePage() {
 
     return (
-        <Box>
+        <MainLayout>
 
             <Text>Forum</Text>
 
             <CardAnnonce listAnnonce={listAnnonce} />
 
-        </Box>
+        </MainLayout>
     );
 }

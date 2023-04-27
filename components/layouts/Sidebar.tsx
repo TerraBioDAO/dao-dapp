@@ -24,6 +24,7 @@ const LinkItems: Array<LinkItemProps> = [
   { name: "Proposal", path: "/proposal", icon: FiCompass },
   { name: "Vote", path: "/vote", icon: FiTrendingUp },
   { name: "Forum", path: "/forum", icon: FiTrendingDown },
+  { name: "Member", path: "/member", icon: FiTrendingDown },
 ]
 
 export const Sidebar = ({ isOpen, onOpen, onClose }: any) => {

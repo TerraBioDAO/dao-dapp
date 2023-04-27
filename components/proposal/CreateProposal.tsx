@@ -10,6 +10,8 @@ import {
   Text,
 } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
+import { useContractWrite, usePrepareContractWrite } from "wagmi"
+import { GovernanceABI } from "@/config/GovernanceABI";
 import Call from "./Call"
 
 export type ProposalDraft = {
@@ -29,6 +31,15 @@ const CreateProposal = () => {
     threshold: 0,
     calls: [],
   })
+
+  const { config, error } = usePrepareContractWrite({
+    address: '0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9',
+    abi: GovernanceABI,
+    functionName: 'propose',
+    args: [1882950011, 86400, 0, 8000, []]
+})
+
+  const { write } = useContractWrite(config)
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -133,7 +144,7 @@ const CreateProposal = () => {
       </Button>
 
       {/* SUBMIT */}
-      <Button my="5" colorScheme="green">
+      <Button my="5" colorScheme="green" onClick={() => write?.()}>
         Submit
       </Button>
     </>

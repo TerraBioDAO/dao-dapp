@@ -2,6 +2,7 @@ import {
     Box,
     Text
 } from '@chakra-ui/react';
+import { MainLayout } from '@/components/layouts/Main'
 import { CardArticle } from '@/components/forum/CardArticle';
 
 const listArticle = [
@@ -47,10 +48,10 @@ const listArticle = [
 export default function ProfilePage() {
 
     return (
-        <Box>
+        <MainLayout>
             <Text>Vote</Text>
 
             <CardArticle listArticle={listArticle} />
-        </Box>
+        </MainLayout>
     );
 }

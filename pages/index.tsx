@@ -19,6 +19,7 @@ const Home = () => {
     dao_access: [],
     governance: [],
     fallaback_router: [],
+    all: [],
   })
 
   // fetch contracts
