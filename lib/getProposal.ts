@@ -22,7 +22,7 @@ export const getProposal = async (
             calls, results
         ] = await gov.getProposal(proposalId)
 
-        if (!startAt) return;
+        if (!startAt) return
 
         return {
             active, proceeded, cancelled,

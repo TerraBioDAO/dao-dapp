@@ -5,6 +5,8 @@ import contracts from "../lib/contracts.json"
 import { fetchSigner, getNetwork, getContract } from "@wagmi/core"
 import { useAccount, useChainId, useNetwork } from "wagmi"
 import { getAllCurrentMembers } from "@/lib/members"
+import { getAllProposals } from "@/lib/proposals"
+import { Proposal } from "@/components/proposal/IProposal"
 
 type Props = {
   children: ReactNode
@@ -13,12 +15,14 @@ type Props = {
 type DaoContextType = {
   dao: Dao | null
   members: string[]
+  proposals: Proposal[]
   functions: DaoMethods
 }
 
 export const DaoContext = createContext<DaoContextType>({
   dao: null,
   members: [],
+  proposals: [],
   functions: [],
 })
 
@@ -28,6 +32,7 @@ const DaoProvider = ({ children }: Props) => {
 
   const [dao, setDao] = useState<Dao | null>(null)
   const [members, setMembers] = useState<string[]>([])
+  const [proposals, setProposals] = useState<Proposal[]>([])
   const [functions, setFunctions] = useState<DaoMethods>([])
   // proposals
 
@@ -84,18 +89,20 @@ const DaoProvider = ({ children }: Props) => {
   useEffect(() => {
     ;(async () => {
       if (dao) {
+        console.log('DaoContext', dao.gov, await getAllProposals(dao.gov))
         dao.members.on("MembersUpdated", (address, bool) => {
           console.log(address)
           console.log(bool)
         })
         setMembers(await getAllCurrentMembers(dao.members))
+        setProposals(await getAllProposals(dao.gov))
         setFunctions(await loadDaoMethods(dao.router))
       }
     })()
   }, [dao])
 
   return (
-    <DaoContext.Provider value={{ dao, members, functions }}>
+    <DaoContext.Provider value={{ dao, members, proposals, functions }}>
       {children}
     </DaoContext.Provider>
   )

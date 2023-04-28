@@ -8,7 +8,6 @@ import { Proposal } from "./IProposal"
 // // console.log(Date.now() / 1000 + 60, 86400, 0, 8000)
 
 
-
 export function GetProposalId(props: any) {
     const { id } = props
     const { dao, members, functions } = useDao()

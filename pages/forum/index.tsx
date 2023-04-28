@@ -3,7 +3,7 @@ import {
     Text
 } from '@chakra-ui/react';
 
-import { CardAnnonce } from '@/components/vote/CardAnnonce';
+import { CardAnnonce } from '@/components/forum/CardAnnonce';
 import { MainLayout } from '@/components/layouts/Main';
 
 const listAnnonce = [

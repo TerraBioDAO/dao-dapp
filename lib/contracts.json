@@ -319,6 +319,11 @@
     ],
     "governance": [
       {
+        "inputs": [],
+        "name": "AlreadyPaused",
+        "type": "error"
+      },
+      {
         "inputs": [
           {
             "internalType": "address",
@@ -440,6 +445,91 @@
         "name": "execute",
         "outputs": [],
         "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "getAllProposals",
+        "outputs": [
+          {
+            "components": [
+              {
+                "internalType": "bool",
+                "name": "active",
+                "type": "bool"
+              },
+              {
+                "internalType": "bool",
+                "name": "proceeded",
+                "type": "bool"
+              },
+              {
+                "internalType": "bool",
+                "name": "cancelled",
+                "type": "bool"
+              },
+              {
+                "internalType": "uint48",
+                "name": "startAt",
+                "type": "uint48"
+              },
+              {
+                "internalType": "uint48",
+                "name": "endAt",
+                "type": "uint48"
+              },
+              {
+                "internalType": "uint48",
+                "name": "gracePeriod",
+                "type": "uint48"
+              },
+              {
+                "internalType": "uint16",
+                "name": "threshold",
+                "type": "uint16"
+              },
+              {
+                "internalType": "uint256",
+                "name": "nbYes",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "nbNo",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "nbNota",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "membersVoted",
+                "type": "uint256"
+              },
+              {
+                "internalType": "address",
+                "name": "proposer",
+                "type": "address"
+              },
+              {
+                "internalType": "bytes[]",
+                "name": "calls",
+                "type": "bytes[]"
+              },
+              {
+                "internalType": "bytes[]",
+                "name": "results",
+                "type": "bytes[]"
+              }
+            ],
+            "internalType": "struct LibGovernance.Proposal[]",
+            "name": "",
+            "type": "tuple[]"
+          }
+        ],
+        "stateMutability": "view",
         "type": "function"
       },
       {

@@ -205,6 +205,14 @@ const __selectorToMethod = (selector: string): Method => {
         selector
       )
 
+    case "0xcceb68f5":
+      return _extractFromABI(
+        "Governance",
+        contracts.abis.governance,
+        "getAllProposals()",
+        selector
+      )
+
     case "0x401853b7":
       return _extractFromABI(
         "Governance",
