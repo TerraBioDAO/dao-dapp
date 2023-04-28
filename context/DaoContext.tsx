@@ -89,7 +89,7 @@ const DaoProvider = ({ children }: Props) => {
   useEffect(() => {
     ;(async () => {
       if (dao) {
-        console.log('DaoContext', dao.gov, await getAllProposals(dao.gov))
+        // console.log('DaoContext', dao.gov, await getAllProposals(dao.gov))
         dao.members.on("MembersUpdated", (address, bool) => {
           console.log(address)
           console.log(bool)

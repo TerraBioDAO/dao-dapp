@@ -16,6 +16,8 @@ export const vote = async (
   setTxProgression("Waiting for confirmation")
   let config
 
+  console.log(proposalId, descision)
+
   try {
     config = await prepareWriteContract({
       address: dao.address as `0x${string}`,

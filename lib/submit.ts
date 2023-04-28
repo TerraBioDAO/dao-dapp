@@ -12,8 +12,10 @@ export const submit = async (
   setTxProgression: Dispatch<SetStateAction<TxProgression>>,
   toast: Function
 ) => {
+  console.log(startAt, votingPeriod, gracePeriod, threshold, calls)
   votingPeriod *= 86400
   gracePeriod *= 86400
+  console.log(startAt, votingPeriod, gracePeriod, threshold, calls)
 
   setTxProgression("Waiting for confirmation")
   let config
