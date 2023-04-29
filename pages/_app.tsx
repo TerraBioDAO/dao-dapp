@@ -6,6 +6,17 @@ import { CreateClientConfig, configureChains, createClient, WagmiConfig } from "
 import { Chain, sepolia, foundry, polygon, polygonMumbai } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import DaoProvider from "@/context/DaoContext"
+import { connectorsForWallets } from '@rainbow-me/rainbowkit';
+import {
+    injectedWallet,
+    rainbowWallet,
+    metaMaskWallet,
+    coinbaseWallet,
+    walletConnectWallet,
+    ledgerWallet,
+    argentWallet,
+    trustWallet
+} from '@rainbow-me/rainbowkit/wallets';
 
 const { chains, provider } = configureChains(
     [sepolia, polygon, polygonMumbai, foundry] as Chain[],
@@ -14,10 +25,32 @@ const { chains, provider } = configureChains(
     ]
 );
 
-const { connectors } = getDefaultWallets({
+/*const { connectors } = getDefaultWallets({
   appName: "TerrabioDAO dApp",
   chains,
-});
+});*/
+const projectId = "TerrabioDAO dApp";
+
+const connectors = connectorsForWallets([
+    {
+        groupName: 'Recommended',
+        wallets: [
+            injectedWallet({ chains }),
+            rainbowWallet({ projectId, chains }),
+            metaMaskWallet({ projectId, chains }),
+            coinbaseWallet({ chains, appName: "TerrabioDAO dApp" }),
+            walletConnectWallet({ projectId, chains }),
+        ],
+    },
+    {
+        groupName: 'Others',
+        wallets: [
+            ledgerWallet(projectId, chains),
+            argentWallet(projectId, chains),
+            trustWallet(projectId, chains)
+        ],
+    },
+]);
 
 const client = createClient({
   autoConnect: true,
