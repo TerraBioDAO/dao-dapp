@@ -1,15 +1,13 @@
-import { ProposalDraft } from "@/components/proposal/CreateProposal"
-import { Contract, ethers } from "ethers"
-import { Dispatch, SetStateAction } from "react"
+import { Contract } from "ethers"
 import { prepareWriteContract } from "@wagmi/core"
-import { ErrorFragment, FormatTypes } from "ethers/lib/utils.js"
-import { readErrorData } from "./errors"
+import { Dispatch, SetStateAction } from "react"
 import { TxProgression, _proceedCall } from "./utils"
+import { FormatTypes } from "ethers/lib/utils.js"
+import { readErrorData } from "./errors"
 
-export const vote = async (
+export const execute = async (
   dao: Contract,
   proposalId: number,
-  descision: number,
   setTxProgression: Dispatch<SetStateAction<TxProgression>>,
   toast: Function
 ) => {
@@ -20,12 +18,16 @@ export const vote = async (
     config = await prepareWriteContract({
       address: dao.address as `0x${string}`,
       abi: dao.interface.format(FormatTypes.json) as any,
-      functionName: "vote(uint256,uint256)",
-      args: [proposalId, descision],
+      functionName: "execute(uint256)",
+      args: [proposalId],
     })
   } catch (e: any) {
     console.log(e)
     setTxProgression(undefined)
+
+    // message:"DAO:error"
+    // data:"0xaaaabbbb00001"
+
     toast({
       title: e.code === 4001 ? "Transaction aborted" : "Transaction failure",
       description:

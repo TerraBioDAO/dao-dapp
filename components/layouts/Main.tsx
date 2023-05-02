@@ -20,6 +20,7 @@ import { Navbar } from "@/components/layouts/Navbar"
 import { Sidebar } from "@/components/layouts/Sidebar"
 import { ModalSearch } from "@/components/layouts/ModalSearch"
 import { useDao } from "@/lib/useDao"
+import {ConnectButton} from "@rainbow-me/rainbowkit";
 
 export const MainLayout = ({ children }: { children: ReactNode }) => {
   const { dao } = useDao()
@@ -70,6 +71,16 @@ export const MainLayout = ({ children }: { children: ReactNode }) => {
         <Container as="main" maxW="container.lg" pt="5">
           {dao === null ? (
             <>
+              <ConnectButton
+                  accountStatus={{
+                    smallScreen: "avatar",
+                    largeScreen: "full",
+                  }}
+                  chainStatus={{
+                    smallScreen: "none",
+                    largeScreen: "full",
+                  }}
+              />
               <Heading>
                 DAO is not initializated, ensure you are on the right network
               </Heading>
