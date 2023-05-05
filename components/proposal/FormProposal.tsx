@@ -10,6 +10,7 @@ import {
   Input,
   Button,
   HStack,
+  Heading,
 } from "@chakra-ui/react"
 
 import { useEffect, useState } from "react"
@@ -152,42 +153,3 @@ import contracts from "@/lib/contracts.json"
 //     </Flex>
 //   )
 // }
-
-export const FormProposalId = () => {
-  const [id, setId] = useState<string | number>("")
-  const [search, setSearch] = useState(false)
-
-  return (
-    <Box>
-      <Flex justify="center">
-        <Box
-          as="form"
-          w={"50vw"}
-          bg={"darkness.900"}
-          p={"8"}
-          borderRadius={"20"}
-        >
-          <Stack>
-            <FormControl>
-              <FormLabel color={"primary.50"}>
-                Id de la proposal ( {id} )
-              </FormLabel>
-              <Input
-                type="number"
-                bg={"darkness.500"}
-                placeholder="Entrer id '1'"
-                onChange={(e: any) => setId(e.target.value)}
-              />
-            </FormControl>
-
-            <Button onClick={() => setSearch(!search ? true : false)}>
-              Get Proposal
-            </Button>
-
-            {id && search && <GetProposalId id={id} />}
-          </Stack>
-        </Box>
-      </Flex>
-    </Box>
-  )
-}

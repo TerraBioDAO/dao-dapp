@@ -12,6 +12,7 @@ export const execute = async (
   toast: Function
 ) => {
   setTxProgression("Waiting for confirmation")
+  console.log('dcsd', dao, proposalId, setTxProgression, toast)
   let config
 
   try {

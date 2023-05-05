@@ -1,5 +1,5 @@
 import { Contract } from "ethers"
-import { Proposal } from "@/components/proposal/IProposal"
+import { Proposal } from "@/interfaces/IProposal"
 
 export const getProposal = async (
     gov: Contract,

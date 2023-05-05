@@ -12,10 +12,10 @@ export type Dao = {
   router: Contract
   gov: Contract
   members: Contract
+  proposals: Contract
 }
 
 // write contract
-
 export type TxProgression = undefined | "Waiting for confirmation" | "Pending"
 
 export const _proceedCall = async (
