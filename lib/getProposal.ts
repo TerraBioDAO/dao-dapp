@@ -4,9 +4,8 @@ import { Proposal } from "@/interfaces/IProposal"
 export const getProposal = async (
     gov: Contract,
     proposalId: number
-) => {
+): Promise<Proposal | undefined> => {
     try {
-
         const [
             // --- status ---
             active, proceeded, cancelled,
@@ -32,9 +31,8 @@ export const getProposal = async (
             proposer,
             calls, results
         } as Proposal
-
     } catch (error) {
-        console.log(error)
+        return
     }
 
 }

@@ -18,6 +18,7 @@ import {
   trustWallet
 } from '@rainbow-me/rainbowkit/wallets';
 import { AppProps } from "next/app";
+import { ErrorProvider } from "@/providers/ErrorProvider";
 
 const { chains, provider } = configureChains(
   [sepolia, polygon, polygonMumbai, foundry] as Chain[],
@@ -64,9 +65,11 @@ const App = ({ Component, pageProps }: AppProps) => {
     <ChakraProvider>
       <WagmiConfig client={client}>
         <RainbowKitProvider chains={chains}>
-          <DaoProvider>
-            <Component {...pageProps} />
-          </DaoProvider>
+          <ErrorProvider>
+            <DaoProvider>
+              <Component {...pageProps} />
+            </DaoProvider>
+          </ErrorProvider>
         </RainbowKitProvider>
       </WagmiConfig>
     </ChakraProvider>

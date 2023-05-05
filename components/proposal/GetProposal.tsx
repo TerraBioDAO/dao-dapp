@@ -1,40 +1,28 @@
-import { useContractRead } from "wagmi"
-import contracts from "@/lib/contracts.json"
-import { Box, Button, Flex, FormControl, FormLabel, Heading, Input, Stack, Text } from "@chakra-ui/react"
-import { useEffect, useState } from "react"
+import { Box, Flex, FormControl, FormLabel, Heading, Input, Stack, Text } from "@chakra-ui/react"
+import { useContext, useEffect, useState } from "react"
 import { getProposal } from "@/lib/getProposal"
 import { useDao } from "@/lib/useDao"
 import { Proposal } from "@/interfaces/IProposal"
-// // console.log(Date.now() / 1000 + 60, 86400, 0, 8000)
-
+import { ErrorContext } from "@/providers/ErrorProvider"
 
 export function GetProposalId() {
-    const [id, setId] = useState<string | number>("")
-    const [search, setSearch] = useState(false)
+    const [id, setId] = useState<number>()
 
     const { dao } = useDao()
     const [data, setData] = useState<Proposal | null>()
-    const [error, setError] = useState<any>()
+    const { error, setError } = useContext(ErrorContext)
 
     useEffect(() => {
         if (!id || !dao) return;
-
-        const init = async () => {
+        (async () => {
             const proposal = await getProposal(dao.gov, Number(id))
-            if (!proposal) return
+            if (!proposal) setError(`ID (${id}) not exist`)
             setData(proposal)
-        }
-
-        try {
-            init()
-        } catch (err) {
-            setError(err)
-        }
+        })()
     }, [id])
 
     return (
         <>
-
             <Heading>Get Proposal By ID</Heading>
             <Flex justify="center">
                 <Box
@@ -58,13 +46,8 @@ export function GetProposalId() {
                             />
                         </FormControl>
 
-                        <Button onClick={() => setSearch(!search ? true : false)}>
-                            Get Proposal
-                        </Button>
-
-
                         {/* Results */}
-                        {id && search && data ? (
+                        {id && data ? (
                             <Box>
                                 <Text>Proposal : {id} </Text>
                                 <Text> ---- Status ---- </Text>
@@ -96,7 +79,7 @@ export function GetProposalId() {
             </Flex>
 
             {error && (
-                <div>An error occurred preparing the transaction: {error.message}</div>
+                <div>An error occurred preparing the transaction: {error}</div>
             )}
         </>
     )
