@@ -1,4 +1,4 @@
-import { DaoContext } from "@/context/DaoContext"
+import { DaoContext } from "@/providers/DaoProvider"
 import { useContext } from "react"
 
 export const useDao = () => {

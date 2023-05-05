@@ -5,7 +5,7 @@ import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { CreateClientConfig, configureChains, createClient, WagmiConfig } from "wagmi";
 import { Chain, sepolia, foundry, polygon, polygonMumbai } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
-import DaoProvider from "@/context/DaoContext"
+import DaoProvider from "@/providers/DaoProvider"
 import { connectorsForWallets } from '@rainbow-me/rainbowkit';
 import {
   injectedWallet,
