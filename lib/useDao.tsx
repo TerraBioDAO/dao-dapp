@@ -2,7 +2,7 @@ import { DaoContext } from "@/context/DaoContext"
 import { useContext } from "react"
 
 export const useDao = () => {
-  const { dao, members, functions } = useContext(DaoContext)
+  const { dao, members, proposals, functions } = useContext(DaoContext)
 
   // block initialisation
   // if (dao === null) {
@@ -11,5 +11,5 @@ export const useDao = () => {
   //   )
   // }
 
-  return { dao, members, functions }
+  return { dao, members, proposals, functions }
 }

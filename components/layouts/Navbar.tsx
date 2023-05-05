@@ -9,7 +9,7 @@ import {
   BreadcrumbLink,
 } from "@chakra-ui/react"
 import { SearchIcon } from "@chakra-ui/icons"
-import { ColorModeSwitcher } from "@/components/ColorSwitcher"
+import { ColorModeSwitcher } from "@/components/_global/ColorSwitcher"
 import Account from "../web3/Account"
 import Network from "../web3/Network"
 import { useRouter } from "next/router"

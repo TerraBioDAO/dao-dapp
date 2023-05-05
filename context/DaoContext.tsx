@@ -5,6 +5,8 @@ import contracts from "../lib/contracts.json"
 import { fetchSigner, getNetwork, getContract } from "@wagmi/core"
 import { useAccount, useChainId, useNetwork } from "wagmi"
 import { getAllCurrentMembers } from "@/lib/members"
+import { getAllProposals } from "@/lib/proposals"
+import { Proposal } from "@/interfaces/IProposal"
 
 type Props = {
   children: ReactNode
@@ -13,12 +15,14 @@ type Props = {
 type DaoContextType = {
   dao: Dao | null
   members: string[]
+  proposals: Proposal[]
   functions: DaoMethods
 }
 
 export const DaoContext = createContext<DaoContextType>({
   dao: null,
   members: [],
+  proposals: [],
   functions: [],
 })
 
@@ -28,6 +32,7 @@ const DaoProvider = ({ children }: Props) => {
 
   const [dao, setDao] = useState<Dao | null>(null)
   const [members, setMembers] = useState<string[]>([])
+  const [proposals, setProposals] = useState<Proposal[]>([])
   const [functions, setFunctions] = useState<DaoMethods>([])
   // proposals
 
@@ -67,12 +72,18 @@ const DaoProvider = ({ children }: Props) => {
             abi: abis.lib_members,
             signerOrProvider: signer,
           })
+
+          const proposals = getContract({
+            address: mainAddress,
+            abi: abis.lib_governance,
+            signerOrProvider: signer,
+          })
           // .on("Proposed", (proposalId, proposer) => {
           //   console.log(proposalId)
           //   console.log(proposer)
           // })
 
-          setDao({ access, router, gov, members, address: mainAddress })
+          setDao({ access, router, gov, members, proposals, address: mainAddress })
         } else {
           setDao(null)
         }
@@ -84,18 +95,24 @@ const DaoProvider = ({ children }: Props) => {
   useEffect(() => {
     ;(async () => {
       if (dao) {
+        console.log('DaoContext', dao)
         dao.members.on("MembersUpdated", (address, bool) => {
           console.log(address)
           console.log(bool)
         })
+        dao.proposals.on("Proposed", (proposalId, proposer) => {
+          // console.log(proposalId)
+          // console.log(proposer)
+        })
         setMembers(await getAllCurrentMembers(dao.members))
+        setProposals(await getAllProposals(dao.proposals))
         setFunctions(await loadDaoMethods(dao.router))
       }
     })()
   }, [dao])
 
   return (
-    <DaoContext.Provider value={{ dao, members, functions }}>
+    <DaoContext.Provider value={{ dao, members, proposals, functions }}>
       {children}
     </DaoContext.Provider>
   )

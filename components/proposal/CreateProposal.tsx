@@ -25,6 +25,8 @@ export type ProposalDraft = {
   calls: string[]
 }
 
+const optionsDay = [1, 3, 5, 10]
+
 const CreateProposal = () => {
   const toast = useToast()
   const { dao } = useDao()
@@ -65,7 +67,7 @@ const CreateProposal = () => {
 
       <Flex gap="2" mt="10">
         <FormControl>
-          <FormLabel>Start at (s)</FormLabel>
+          <FormLabel>Start at (s) | '0' is now</FormLabel>
           <Input
             bg={"darkness.500"}
             type="number"
@@ -78,36 +80,42 @@ const CreateProposal = () => {
             min={Math.floor(Date.now() / 1000) + 60}
           />
         </FormControl>
+
         <FormControl>
-          <FormLabel>Voting period (d)</FormLabel>
-          <Input
+          <FormLabel color={"primary.50"}>
+            Voting period (d)
+          </FormLabel>
+          <Select
+            onChange={(e) => setDraft((d) => {
+              return { ...d, votingPeriod: Number(e.target.value) }
+            })}
             bg={"darkness.500"}
-            type="number"
-            min={1}
-            max={31}
             value={draft.votingPeriod}
-            onChange={(e) =>
-              setDraft((d) => {
-                return { ...d, votingPeriod: Number(e.target.value) }
-              })
-            }
-          />
+          >
+            {optionsDay.map(d =>
+              <option key={d} value={d}>{d}</option>
+            )}
+
+          </Select>
         </FormControl>
+
         <FormControl>
-          <FormLabel>Grace period (d)</FormLabel>
-          <Input
+          <FormLabel color={"primary.50"}>
+            Grace period (d)
+          </FormLabel>
+          <Select
+            onChange={(e) => setDraft((d) => {
+              return { ...d, gracePeriod: Number(e.target.value) }
+            })}
             bg={"darkness.500"}
-            type="number"
-            min={0}
-            max={7}
             value={draft.gracePeriod}
-            onChange={(e) =>
-              setDraft((d) => {
-                return { ...d, gracePeriod: Number(e.target.value) }
-              })
-            }
-          />
+          >
+            {optionsDay.map(d =>
+              <option key={d} value={d}>{d}</option>
+            )}
+          </Select>
         </FormControl>
+
         <FormControl>
           <FormLabel>Threshold</FormLabel>
           <Input
