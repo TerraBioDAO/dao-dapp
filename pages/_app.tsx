@@ -8,21 +8,22 @@ import { publicProvider } from "wagmi/providers/public";
 import DaoProvider from "@/context/DaoContext"
 import { connectorsForWallets } from '@rainbow-me/rainbowkit';
 import {
-    injectedWallet,
-    rainbowWallet,
-    metaMaskWallet,
-    coinbaseWallet,
-    walletConnectWallet,
-    ledgerWallet,
-    argentWallet,
-    trustWallet
+  injectedWallet,
+  rainbowWallet,
+  metaMaskWallet,
+  coinbaseWallet,
+  walletConnectWallet,
+  ledgerWallet,
+  argentWallet,
+  trustWallet
 } from '@rainbow-me/rainbowkit/wallets';
+import { AppProps } from "next/app";
 
 const { chains, provider } = configureChains(
-    [sepolia, polygon, polygonMumbai, foundry] as Chain[],
-    [
-      publicProvider(),
-    ]
+  [sepolia, polygon, polygonMumbai, foundry] as Chain[],
+  [
+    publicProvider(),
+  ]
 );
 
 /*const { connectors } = getDefaultWallets({
@@ -32,24 +33,24 @@ const { chains, provider } = configureChains(
 const projectId = "TerrabioDAO dApp";
 
 const connectors = connectorsForWallets([
-    {
-        groupName: 'Recommended',
-        wallets: [
-            injectedWallet({ chains }),
-            rainbowWallet({ projectId, chains }),
-            metaMaskWallet({ projectId, chains }),
-            coinbaseWallet({ chains, appName: "TerrabioDAO dApp" }),
-            walletConnectWallet({ projectId, chains }),
-        ],
-    },
-    {
-        groupName: 'Others',
-        wallets: [
-            ledgerWallet(projectId, chains),
-            argentWallet(projectId, chains),
-            trustWallet(projectId, chains)
-        ],
-    },
+  {
+    groupName: 'Recommended',
+    wallets: [
+      injectedWallet({ chains }),
+      rainbowWallet({ projectId, chains }),
+      metaMaskWallet({ projectId, chains }),
+      coinbaseWallet({ chains, appName: "TerrabioDAO dApp" }),
+      walletConnectWallet({ projectId, chains }),
+    ],
+  },
+  {
+    groupName: 'Others',
+    wallets: [
+      ledgerWallet({ projectId, chains }),
+      argentWallet({ projectId, chains }),
+      trustWallet({ projectId, chains })
+    ],
+  },
 ]);
 
 const client = createClient({
@@ -63,7 +64,9 @@ const App = ({ Component, pageProps }: AppProps) => {
     <ChakraProvider>
       <WagmiConfig client={client}>
         <RainbowKitProvider chains={chains}>
-          <Component {...pageProps} />
+          <DaoProvider>
+            <Component {...pageProps} />
+          </DaoProvider>
         </RainbowKitProvider>
       </WagmiConfig>
     </ChakraProvider>
