@@ -47,7 +47,7 @@ export default function FormVoteProposal(props: any) {
             <Heading>Vote on proposal</Heading>
 
             {/* Choose decision for voting */}
-            <FormControl isRequired isInvalid={!chooseVoteIsValid(draft.decision)}>
+            <FormControl my={"3"} isRequired isInvalid={!chooseVoteIsValid(draft.decision)}>
                 <FormLabel color={"primary.50"}>
                     Choose for vote: ({draft.decision})
                 </FormLabel>

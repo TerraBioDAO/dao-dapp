@@ -14,6 +14,7 @@ export default function ButtonVoteProposal(props: any) {
 
     return (
         <Button
+            my={"3"}
             isLoading={
                 txProgression === "Waiting for confirmation" ||
                 txProgression === "Pending"
