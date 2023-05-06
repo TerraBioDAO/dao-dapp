@@ -6,16 +6,8 @@ import {
 } from '@chakra-ui/react';
 import { CardProposal } from './CardProposal';
 
-/* !!! Warning
-
-  - On a besoin de mettre des id ou un identifiant sur les proposals sinon les key des components react vont etre chiante
-
-*/
-
 export const ListCardProposals = () => {
     const { proposals } = useDao()
-
-    // console.log('listCardArticle', proposals)
 
     return (
         <Box>

@@ -5,7 +5,7 @@ export const dateStartIsValid = (date: number) => {
     switch (true) {
         case date === 0:
             return true
-        case (date >= Math.floor(Date.now() / 1000)) :
+        case (date >= Math.floor(Date.now() / 1000)):
             return true
         default:
             return false
@@ -28,4 +28,18 @@ export const dateGracePeriodIsValid = (d: number) => {
 export const thresholdIsValid = (total: number) => {
     if (total >= 8000 && total <= 10000) return true
     else return false
+}
+
+// Check if choose vote is correct
+export const chooseVoteIsValid = (choose: number) => {
+    switch (true) {
+        case choose === 0:
+            return true
+        case choose === 1:
+            return true
+        case choose === 2:
+            return true
+        default:
+            return false
+    }
 }

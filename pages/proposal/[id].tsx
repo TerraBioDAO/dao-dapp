@@ -1,6 +1,7 @@
 import { MainLayout } from '@/components/layouts/Main'
 import ButtonExecuteProposal from '@/components/proposal/ButtonExecuteProposal'
 import ButtonVoteProposal from '@/components/proposal/ButtonVoteProposal'
+import FormVoteProposal from '@/components/proposal/FormVoteProposal'
 import { Proposal } from '@/interfaces/IProposal'
 import { getProposal } from '@/lib/getProposal'
 import { useDao } from '@/lib/useDao'
@@ -54,11 +55,9 @@ const ProposalId = () => {
                     <Text>calls : {JSON.stringify(proposal.calls)} </Text>
                     <Text>results : {JSON.stringify(proposal.results)} </Text>
 
-
-                    {/* Button for vote on proposal */}
-                    <ButtonVoteProposal
+                    {/* Form for vote on proposal */}
+                    <FormVoteProposal
                         proposalId={id}
-                        descision={1}
                     />
 
                     {/* Button for execute proposal */}

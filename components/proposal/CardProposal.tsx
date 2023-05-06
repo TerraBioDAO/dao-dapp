@@ -19,24 +19,15 @@ import Link from 'next/link';
 import ButtonVoteProposal from './ButtonVoteProposal';
 import ButtonExecuteProposal from './ButtonExecuteProposal';
 
-/* !!! Warning
-
-  - On a besoin de mettre des id ou un identifiant sur les proposals sinon les key des components react vont etre chiante
-
-*/
-
 export const CardProposal = (props: any) => {
   const { id } = props;
   const [proposal, setProposal] = useState<Proposal>()
 
   const { dao } = useDao()
 
-  // console.log('cardArticle', dao, proposal, id)
-
   const getParams = async () => {
     if (!dao || !dao.gov) return;
     const data = await getProposal(dao.gov, id)
-    // console.log('getParams', data)
     setProposal(data)
   }
 
