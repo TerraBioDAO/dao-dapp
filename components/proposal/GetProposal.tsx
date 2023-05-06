@@ -1,6 +1,6 @@
 import { Box, Flex, FormControl, FormLabel, Heading, Input, Stack, Text } from "@chakra-ui/react"
 import { useContext, useEffect, useState } from "react"
-import { getProposal } from "@/lib/getProposal"
+import { getProposal } from "@/lib"
 import { useDao } from "@/hooks/useDao"
 import { Proposal } from "@/interfaces/IProposal"
 import { ErrorContext } from "@/providers/ErrorProvider"

@@ -1,12 +1,9 @@
-import { DaoMethods, loadDaoMethods } from "@/lib/selectors"
-import { Dao } from "@/lib/utils"
 import { ReactNode, createContext, useEffect, useState } from "react"
-import contracts from "../lib/contracts.json"
 import { fetchSigner, getNetwork, getContract } from "@wagmi/core"
 import { useAccount, useChainId, useNetwork } from "wagmi"
-import { getAllCurrentMembers } from "@/lib/members"
-import { getAllProposals } from "@/lib/proposals"
 import { Proposal } from "@/interfaces/IProposal"
+import { DaoMethods, loadDaoMethods, Dao, getAllCurrentMembers, getAllProposals } from "@/lib"
+import contracts from "@/lib/contracts.json"
 
 type Props = {
     children: ReactNode

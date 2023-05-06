@@ -12,10 +12,12 @@ import {
 } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import Call from "./Call"
-import { submit } from "@/lib/submit"
 import { useDao } from "@/hooks/useDao"
-import { TxProgression } from "@/lib/utils"
-import { dateStartIsValid, dateVotingPeriodIsValid, dateGracePeriodIsValid, thresholdIsValid } from "@/lib/validations"
+import {
+  submit, TxProgression,
+  // Validations
+  dateStartIsValid, dateVotingPeriodIsValid, dateGracePeriodIsValid, thresholdIsValid
+} from "@/lib"
 
 export type ProposalDraft = {
   startAt: number

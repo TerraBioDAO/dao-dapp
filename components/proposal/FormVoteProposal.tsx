@@ -1,15 +1,13 @@
 import {
-    Flex,
     FormControl,
     FormErrorMessage,
     FormLabel,
     Heading,
-    Input,
     Select,
     Text,
 } from "@chakra-ui/react"
-import { useEffect, useState } from "react"
-import { chooseVoteIsValid } from "@/lib/validations"
+import { useState } from "react"
+import { chooseVoteIsValid } from "@/lib"
 import ButtonVoteProposal from "./ButtonVoteProposal"
 
 export type ProposalDraft = {

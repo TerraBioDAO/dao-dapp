@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { AiTwotoneHeart } from 'react-icons/ai';
-import { getProposal } from '@/lib/getProposal';
+import { getProposal } from '@/lib';
 import { Proposal } from '@/interfaces/IProposal';
 import Link from 'next/link';
 import ButtonVoteProposal from './ButtonVoteProposal';

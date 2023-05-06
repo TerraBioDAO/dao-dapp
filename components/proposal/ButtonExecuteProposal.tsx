@@ -1,8 +1,7 @@
 import {
     useToast, Button
 } from '@chakra-ui/react'
-import { TxProgression } from '@/lib/utils';
-import { execute } from '@/lib/execute';
+import { TxProgression, execute } from '@/lib';
 import { useDao } from '@/hooks/useDao';
 import { useState } from 'react'
 

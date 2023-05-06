@@ -16,7 +16,7 @@ import {
 import { Dispatch, SetStateAction, useState } from "react"
 import { ProposalDraft } from "./CreateProposal"
 import { useDao } from "@/hooks/useDao"
-import { Args } from "@/lib/selectors"
+import { Args } from "@/lib"
 import { CloseIcon } from "@chakra-ui/icons"
 import { ethers } from "ethers"
 

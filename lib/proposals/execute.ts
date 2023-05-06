@@ -1,9 +1,8 @@
 import { Contract } from "ethers"
 import { prepareWriteContract } from "@wagmi/core"
 import { Dispatch, SetStateAction } from "react"
-import { TxProgression, _proceedCall } from "./utils"
+import { TxProgression, _proceedCall, readErrorData } from "@/lib"
 import { FormatTypes } from "ethers/lib/utils.js"
-import { readErrorData } from "./errors"
 
 export const execute = async (
   dao: Contract,
