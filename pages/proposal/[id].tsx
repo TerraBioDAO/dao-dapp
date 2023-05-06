@@ -23,7 +23,7 @@ const ProposalId = () => {
 
     useEffect(() => {
         getParams()
-    }, [])
+    }, [id, dao])
 
     return (
         <MainLayout>
