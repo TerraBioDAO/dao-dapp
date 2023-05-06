@@ -1,8 +1,8 @@
 import {
-  Box,
   Button,
   Flex,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Heading,
   Input,
@@ -11,11 +11,11 @@ import {
   useToast,
 } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
-import { useContractWrite, usePrepareContractWrite } from "wagmi"
 import Call from "./Call"
 import { submit } from "@/lib/submit"
 import { useDao } from "@/lib/useDao"
 import { TxProgression } from "@/lib/utils"
+import { dateStartIsValid, dateVotingPeriodIsValid, dateGracePeriodIsValid, thresholdIsValid } from "@/lib/validations"
 
 export type ProposalDraft = {
   startAt: number
@@ -35,11 +35,21 @@ const CreateProposal = () => {
   const [time, setTime] = useState(0)
   const [draft, setDraft] = useState<ProposalDraft>({
     startAt: Math.floor(Date.now() / 1000),
-    votingPeriod: 0,
-    gracePeriod: 0,
-    threshold: 0,
+    votingPeriod: 1,
+    gracePeriod: 1,
+    threshold: 8000,
     calls: [],
   })
+
+  const formIsValid = () => {
+    if (
+      dateStartIsValid(draft.startAt)
+      && dateVotingPeriodIsValid(draft.votingPeriod)
+      && dateGracePeriodIsValid(draft.gracePeriod)
+      && thresholdIsValid(draft.threshold)
+    ) return true
+    else return false
+  }
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -66,7 +76,9 @@ const CreateProposal = () => {
       {/* VOTE PARAMETERS */}
 
       <Flex gap="2" mt="10">
-        <FormControl>
+
+        {/* Start at */}
+        <FormControl isRequired isInvalid={!dateStartIsValid(draft.startAt)}>
           <FormLabel>Start at (s) | '0' is now</FormLabel>
           <Input
             bg={"darkness.500"}
@@ -79,9 +91,14 @@ const CreateProposal = () => {
             }
             min={Math.floor(Date.now() / 1000) + 60}
           />
+          {!dateStartIsValid(draft.startAt) && (
+            <FormErrorMessage>Should be above of actual time.</FormErrorMessage>
+          )}
+          <Text>Actual Time: {time}</Text>
         </FormControl>
 
-        <FormControl>
+        {/* Voting Period */}
+        <FormControl isRequired isInvalid={!dateVotingPeriodIsValid(draft.votingPeriod)}>
           <FormLabel color={"primary.50"}>
             Voting period (d)
           </FormLabel>
@@ -95,11 +112,14 @@ const CreateProposal = () => {
             {optionsDay.map(d =>
               <option key={d} value={d}>{d}</option>
             )}
-
           </Select>
+          {!dateVotingPeriodIsValid(draft.votingPeriod) && (
+            <FormErrorMessage>Must be greater than 1.</FormErrorMessage>
+          )}
         </FormControl>
 
-        <FormControl>
+        {/* Grace Period */}
+        <FormControl isRequired isInvalid={!dateGracePeriodIsValid(draft.gracePeriod)}>
           <FormLabel color={"primary.50"}>
             Grace period (d)
           </FormLabel>
@@ -114,9 +134,13 @@ const CreateProposal = () => {
               <option key={d} value={d}>{d}</option>
             )}
           </Select>
+          {!dateGracePeriodIsValid(draft.gracePeriod) && (
+            <FormErrorMessage>Must be greater than 1.</FormErrorMessage>
+          )}
         </FormControl>
 
-        <FormControl>
+        {/* Threshold */}
+        <FormControl isRequired isInvalid={!thresholdIsValid(draft.threshold)}>
           <FormLabel>Threshold</FormLabel>
           <Input
             bg={"darkness.500"}
@@ -130,9 +154,11 @@ const CreateProposal = () => {
               })
             }
           />
+          {!thresholdIsValid(draft.threshold) && (
+            <FormErrorMessage>Must be between 8000 & 10000.</FormErrorMessage>
+          )}
         </FormControl>
       </Flex>
-      <Text>Actual Time: {time}</Text>
 
       {/* CALLS */}
       <Button
@@ -164,9 +190,9 @@ const CreateProposal = () => {
           txProgression === "Pending"
         }
         loadingText={txProgression}
-        colorScheme="green"
+        colorScheme={formIsValid() ? "green" : "orange"}
         onClick={() => {
-          if (dao) {
+          if (dao && formIsValid()) {
             submit(dao.gov, draft, setTxProgression, toast)
           }
         }}
