@@ -103,7 +103,7 @@ export const CardProposal = (props: any) => {
                       }
                       loadingText={txProgression}
                       onClick={() =>
-                        dao ? vote(dao.gov, 1, 1, setTxProgression, toast) : ""
+                        dao ? vote(dao.gov, id, 1, setTxProgression, toast) : ""
                       }
                     >
                       Vote on proposal {id}

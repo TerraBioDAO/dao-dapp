@@ -1,8 +1,7 @@
-import { ProposalDraft } from "@/components/proposal/CreateProposal"
-import { Contract, ethers } from "ethers"
+import { Contract } from "ethers"
 import { Dispatch, SetStateAction } from "react"
 import { prepareWriteContract } from "@wagmi/core"
-import { ErrorFragment, FormatTypes } from "ethers/lib/utils.js"
+import { FormatTypes } from "ethers/lib/utils.js"
 import { readErrorData } from "./errors"
 import { TxProgression, _proceedCall } from "./utils"
 
