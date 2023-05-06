@@ -1,4 +1,6 @@
 import { MainLayout } from '@/components/layouts/Main'
+import ButtonExecuteProposal from '@/components/proposal/ButtonExecuteProposal'
+import ButtonVoteProposal from '@/components/proposal/ButtonVoteProposal'
 import { Proposal } from '@/interfaces/IProposal'
 import { getProposal } from '@/lib/getProposal'
 import { useDao } from '@/lib/useDao'
@@ -51,6 +53,19 @@ const ProposalId = () => {
                     <Text> ---- Content ---- </Text>
                     <Text>calls : {JSON.stringify(proposal.calls)} </Text>
                     <Text>results : {JSON.stringify(proposal.results)} </Text>
+
+
+                    {/* Button for vote on proposal */}
+                    <ButtonVoteProposal
+                        proposalId={id}
+                        descision={1}
+                    />
+
+                    {/* Button for execute proposal */}
+                    <ButtonExecuteProposal
+                        proposalId={id}
+                    />
+
                 </Box>
             ) : (
                 <Text> Proposal introuvable ! </Text>

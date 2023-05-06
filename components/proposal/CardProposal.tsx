@@ -1,7 +1,4 @@
-import { execute } from '@/lib/execute';
 import { useDao } from '@/lib/useDao';
-import { TxProgression } from '@/lib/utils';
-import { vote } from '@/lib/vote';
 import {
   Box,
   Grid,
@@ -12,7 +9,6 @@ import {
   Tag,
   HStack,
   IconButton,
-  useToast,
   Button,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
@@ -20,6 +16,8 @@ import { AiTwotoneHeart } from 'react-icons/ai';
 import { getProposal } from '@/lib/getProposal';
 import { Proposal } from '@/interfaces/IProposal';
 import Link from 'next/link';
+import ButtonVoteProposal from './ButtonVoteProposal';
+import ButtonExecuteProposal from './ButtonExecuteProposal';
 
 /* !!! Warning
 
@@ -28,8 +26,6 @@ import Link from 'next/link';
 */
 
 export const CardProposal = (props: any) => {
-  const toast = useToast()
-  const [txProgression, setTxProgression] = useState<TxProgression>()
   const { id } = props;
   const [proposal, setProposal] = useState<Proposal>()
 
@@ -96,31 +92,17 @@ export const CardProposal = (props: any) => {
                   <Image w={'50px'} src={"https://cdn2.iconfinder.com/data/icons/avatars-99/62/avatar-373-456325-512.png"} />
                   <Box>
                     <Text>{proposal.proposer}</Text>
-                    <Button
-                      isLoading={
-                        txProgression === "Waiting for confirmation" ||
-                        txProgression === "Pending"
-                      }
-                      loadingText={txProgression}
-                      onClick={() =>
-                        dao ? vote(dao.gov, id, 1, setTxProgression, toast) : ""
-                      }
-                    >
-                      Vote on proposal {id}
-                    </Button>
 
-                    <Button
-                      isLoading={
-                        txProgression === "Waiting for confirmation" ||
-                        txProgression === "Pending"
-                      }
-                      loadingText={txProgression}
-                      onClick={() =>
-                        dao ? execute(dao?.gov, 1, setTxProgression, toast) : ""
-                      }
-                    >
-                      Execute {id}
-                    </Button>
+                    {/* Button for vote on proposal */}
+                    <ButtonVoteProposal
+                      proposalId={id}
+                      descision={1}
+                    />
+
+                    {/* Button for execute proposal */}
+                    <ButtonExecuteProposal
+                      proposalId={id}
+                    />
 
                     <Link href={`/proposal/${id}`}>
                       <Button
