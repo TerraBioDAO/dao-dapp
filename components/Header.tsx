@@ -1,5 +1,5 @@
 import { Box, Heading, Text } from "@chakra-ui/react"
-import { useDao } from "@/lib/useDao"
+import { useDao } from "@/hooks/useDao"
 
 export function Header() {
     const { dao, members, functions } = useDao();

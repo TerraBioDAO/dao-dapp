@@ -3,7 +3,7 @@ import {
 } from '@chakra-ui/react'
 import { TxProgression } from '@/lib/utils';
 import { execute } from '@/lib/execute';
-import { useDao } from '@/lib/useDao';
+import { useDao } from '@/hooks/useDao';
 import { useState } from 'react'
 
 export default function ButtonVoteProposal(props: any) {

@@ -1,4 +1,4 @@
-import { useDao } from '@/lib/useDao';
+import { useDao } from '@/hooks/useDao';
 import {
   Box,
   Grid,

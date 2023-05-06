@@ -19,7 +19,7 @@ import {
 import { Navbar } from "@/components/layouts/Navbar"
 import { Sidebar } from "@/components/layouts/Sidebar"
 import { ModalSearch } from "@/components/layouts/ModalSearch"
-import { useDao } from "@/lib/useDao"
+import { useDao } from "@/hooks/useDao"
 import {ConnectButton} from "@rainbow-me/rainbowkit";
 
 export const MainLayout = ({ children }: { children: ReactNode }) => {
