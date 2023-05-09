@@ -1,6 +1,6 @@
 import ButtonExecuteProposal from '@/components/proposal/ButtonExecuteProposal'
 import FormVoteProposal from '@/components/proposal/FormVoteProposal'
-import { Box, Text, Flex } from '@chakra-ui/react'
+import { Box, Text, Flex, HStack, Tag } from '@chakra-ui/react'
 import ChartResultYesNo from '@/components/proposal/ChartResultYesNo'
 
 export default function HeroProposalId(props: any) {
@@ -33,7 +33,51 @@ export default function HeroProposalId(props: any) {
                     <Text>results : {JSON.stringify(proposal.results)} </Text>
                 </Box>
 
-                <Flex w="35%" direction="column">
+                <Flex w="35%" direction="column" justify={'center'} alignContent={"center"}>
+
+                    <Text>Author: {proposal.proposer.toString()}</Text>
+
+                    {/* Status active/proceeded/cancelled */}
+                    <HStack spacing={'10px'} my={2} justify={'center'}>
+                        {[
+                            { id: 0, label: "Active: ", value: proposal.active.toString() },
+                            { id: 1, label: "Proceeded: ", value: proposal.proceeded.toString() },
+                            { id: 2, label: "Cancelled: ", value: proposal.cancelled.toString() }
+                        ].map((tag: any, i: number) => {
+                            return <Tag key={tag.id} p={2} fontSize={'10'} color={'secondary.500'} borderRadius={'full'}>
+                                <Text>{tag.label}</Text>
+                                <Text>{tag.value}</Text>
+                            </Tag>;
+                        })}
+                    </HStack>
+
+                    {/* Time start/grace/end */}
+                    <HStack spacing={'10px'} my={2} justify={'center'}>
+                        {[
+                            { id: 0, label: "StartAt: ", value: proposal.startAt },
+                            { id: 1, label: "gracePeriod: ", value: proposal.gracePeriod },
+                            { id: 2, label: "End: ", value: proposal.endAt }
+                        ].map((tag: any, i: number) => {
+                            return <Tag key={tag.id} p={2} fontSize={'10'} color={'secondary.500'} borderRadius={'full'}>
+                                <Text>{tag.label}</Text>
+                                <Text>{tag.value}</Text>
+                            </Tag>;
+                        })}
+                    </HStack>
+
+                    {/* Total Voters/limit*/}
+                    <HStack spacing={'10px'} my={2} justify={'center'}>
+                        {[
+                            { id: 0, label: "Voters: ", value: Number(proposal.membersVoted) },
+                            { id: 1, label: "Threshold: ", value: Number(proposal.threshold) }
+                        ].map((tag: any, i: number) => {
+                            return <Tag key={tag.id} p={2} fontSize={'10'} color={'secondary.500'} borderRadius={'full'}>
+                                <Text>{tag.label}</Text>
+                                <Text>{tag.value}</Text>
+                            </Tag>;
+                        })}
+                    </HStack>
+
                     {/* Chart result vote */}
                     <ChartResultYesNo
                         result={{
